@@ -1,0 +1,42 @@
+.app {
+  text-align: center;
+}
+
+.app-logo {
+  height: 75px;
+  pointer-events: none;
+}
+
+header {
+  height: 120px;
+  background-color: #252525;
+}
+
+.app-header {
+  color: white;
+  height: 100%;
+  box-shadow: 0 -10px 25px #5271ff;
+}
+
+.center {
+  height: 100%;
+  display: flex;
+  padding: 0 200px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.button-enter {
+  width: 140px;
+  height: 35px;
+  color: #FFFFFF;
+  background-color: #252525;
+  border-color: #5271ff;
+  border-radius: 7px;
+  transition: background-color .4s;
+  cursor: pointer;
+}
+
+.button-enter:hover {
+  background-color: #5271ff;
+}
