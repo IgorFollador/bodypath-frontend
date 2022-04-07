@@ -7,6 +7,16 @@
   pointer-events: none;
 }
 
+.hello-user {
+  display: flex;
+}
+
+.img-logout {
+  height: 25px;
+  margin-left: 20px;
+  cursor: pointer;
+}
+
 header {
   height: 120px;
   background-color: #252525;

@@ -1,8 +1,7 @@
-/* eslint-disable jsx-a11y/alt-text */
 import './Main.css';
 import image from '../images/image-gym.png'
 
-function Main() {
+const Main = () => {
   return (
     <main>
         <div className='sections-container'>
@@ -20,7 +19,7 @@ function Main() {
                     </div>
                 </div>
                 <div className='main-image'>
-                    <img src={image}></img>
+                    <img src={image} alt='Training'></img>
                 </div>
             </section>
             <section>
