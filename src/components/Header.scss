@@ -1,0 +1,52 @@
+@import '../index.scss';
+
+header {
+  height: 120px;
+  background-color: $color3;
+
+  .app-header {
+    color: $color5;
+    height: 100%;
+    box-shadow: 0 -10px 25px $color1;
+
+    .center {
+      height: 100%;
+      display: flex;
+      padding: 0 200px;
+      align-items: center;
+      justify-content: space-between;
+
+      .app-logo {
+        height: 75px;
+        pointer-events: none;
+      }
+
+      .button-enter {
+        width: 140px;
+        height: 35px;
+        color: $color5;
+        background-color: $color3;
+        border-color: $color1;
+        border-radius: 7px;
+        transition: background-color .4s;
+        cursor: pointer;
+
+        &:hover {
+          background-color: $color1;
+        }
+      }
+      
+      .hello-user {
+        display: flex;
+        
+        .img-logout {
+          height: 25px;
+          margin-left: 20px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+

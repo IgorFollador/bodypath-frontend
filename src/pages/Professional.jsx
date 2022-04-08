@@ -1,10 +1,9 @@
-import './Professional.css';
+import './Professional.scss';
+import SideBar from '../components/SideBar';
 
 const Professional = () => {
   return (
-    <section>
-      <h1>Starting Professional Page</h1>
-    </section>
+    <SideBar />
   );
 }
 

@@ -1,4 +1,4 @@
-import './App.css';
+import './App.scss';
 import Header from './components/Header';
 import Main from './pages/Main';
 import Professional from "./pages/Professional";

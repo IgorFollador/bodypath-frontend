@@ -1,0 +1,12 @@
+@import '../index.scss';
+
+.sideBar-container {
+    bottom: 0;
+    z-index: -1;
+    width: 200px;
+    height: 100vh;
+    display: flex;
+    padding-top: 140px;
+    position: absolute;
+    background-color: $color4;
+}

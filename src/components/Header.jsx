@@ -1,4 +1,4 @@
-import './Header.css';
+import './Header.scss';
 import logo from '../images/logo.png';
 import logout from '../images/logout.png';
 

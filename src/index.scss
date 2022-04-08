@@ -1,3 +1,15 @@
+$color1: #5271FF;
+$color2: #151515;
+$color3: #252525;
+$color4: #2E2E2E;
+$color5: #FFFFFF;
+
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,7 +17,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #151515;
+  background-color: $color2;
 }
 
 code {
@@ -14,7 +26,7 @@ code {
 }
 
 h1, h2, h3, h4, h5, a, p, span {
-  color: #FFFFFF;
+  color: $color5;
 }
 
 h1 {

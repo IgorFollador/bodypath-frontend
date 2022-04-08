@@ -1,4 +1,4 @@
-import './Main.css';
+import './Main.scss';
 import image from '../images/image-gym.png'
 
 const Main = () => {
