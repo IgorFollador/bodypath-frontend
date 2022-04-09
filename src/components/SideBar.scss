@@ -77,9 +77,9 @@
     .list-people {
         width: 100%;
         height: 100%;
-        color: $color5;
         overflow: auto;
         padding: 0 5px;
+        color: $color5;
         margin-bottom: 20px;
         max-height: calc(100vh - 445px);
 
@@ -105,6 +105,10 @@
         &::-webkit-scrollbar-thumb {
             background-color: $color1;
             border-radius: 10px;
+
+            &:hover {
+                background-color: $color8;
+            }
         }
     }
 

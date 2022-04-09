@@ -25,11 +25,12 @@ header {
         width: 140px;
         height: 35px;
         color: $color5;
-        background-color: $color3;
-        border-color: $color1;
-        border-radius: 7px;
-        transition: background-color .4s;
         cursor: pointer;
+        border-width: 2px;
+        border-radius: 7px;
+        border-color: $color1;
+        background-color: $color3;
+        transition: background-color .4s;
 
         &:hover {
           background-color: $color1;
@@ -41,8 +42,8 @@ header {
         
         .img-logout {
           height: 25px;
-          margin-left: 20px;
           cursor: pointer;
+          margin-left: 20px;
         }
       }
     }
