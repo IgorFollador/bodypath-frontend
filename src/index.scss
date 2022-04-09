@@ -3,6 +3,8 @@ $color2: #151515;
 $color3: #252525;
 $color4: #2E2E2E;
 $color5: #FFFFFF;
+$color6: #1C1C1C;
+$color7: #3E3E3E;
 
 *{
   padding: 0;
@@ -35,4 +37,13 @@ h1 {
 
 a {
   text-decoration: none;
+}
+
+input {
+  outline: 0;
+}
+
+button {
+  border-width: 0;
+  cursor: pointer;
 }
