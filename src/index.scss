@@ -7,6 +7,11 @@ $color6: #1C1C1C;
 $color7: #3E3E3E;
 $color8: #8080FF;
 $color9: #25d366;
+$color10: #929292;
+
+$widthInputLG: 220px;
+$widthInputMD: 100px;
+$widthInputSM: 45px;
 
 *{
   padding: 0;
@@ -48,4 +53,8 @@ input {
 button {
   border-width: 0;
   cursor: pointer;
+}
+
+#root {
+  height: 120px;
 }

@@ -1,9 +1,10 @@
-@import '../index.scss';
+@import '../../index.scss';
 
 .section-main {
-  width: 100%;
+  margin: 100px;
   display: flex;
-  height: calc(100vh - 120px);
+  height: calc(100vh - 100px);
+  overflow-x: none;
 
   &>div {
     width: 50%;

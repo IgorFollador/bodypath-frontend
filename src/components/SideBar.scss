@@ -2,13 +2,13 @@
 
 .sideBar-container {
     bottom: 0;
-    z-index: -1;
+    z-index: 1;
     width: 200px;
     height: 100vh;
     display: flex;
-    position: absolute;
+    position: fixed;
     flex-direction: column;
-    padding: 140px 0 16px 0;
+    padding: 130px 0 16px 0;
     background-color: $color6;
     box-shadow: -13px 0 25px $color1;
 }
@@ -80,8 +80,8 @@
         overflow: auto;
         padding: 0 5px;
         color: $color5;
-        margin-bottom: 20px;
-        max-height: calc(100vh - 445px);
+        margin-bottom: 33px;
+        max-height: calc(100vh - 435px);
 
         .item-person {
             cursor: pointer;
@@ -99,7 +99,7 @@
         }
 
         &::-webkit-scrollbar-track {
-            background: $color7;
+            background: $color10;
         }
 
         &::-webkit-scrollbar-thumb {

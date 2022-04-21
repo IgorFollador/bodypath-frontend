@@ -1,7 +1,12 @@
 @import '../index.scss';
 
 header {
-  height: 120px;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: 100vw;
+  height: 100px;
+  position: fixed;
   background-color: $color3;
 
   .app-header {
@@ -17,7 +22,7 @@ header {
       justify-content: space-between;
 
       .app-logo {
-        height: 75px;
+        height: 70px;
         pointer-events: none;
       }
 
@@ -41,7 +46,7 @@ header {
         display: flex;
         
         .img-logout {
-          height: 25px;
+          height: 23px;
           cursor: pointer;
           margin-left: 20px;
         }

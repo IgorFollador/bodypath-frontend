@@ -1,40 +1,31 @@
-import React from "react";
 import './SideBar.scss';
+import { Link } from 'react-router-dom';
 import plus from '../images/plus.png';
 import iconSearch from '../images/search-blue.png';
 
 function ButtonSideBar(props) {
     function removeClassActive() {
         for (let i = 1; i < 6; i++) {
-            var id = "btn-" + i;
-            document.getElementById(id).parentNode.classList.remove('active');
+            var id = 'btn-' + i;
+            document.getElementById(id).parentNode.parentNode.classList.remove('active');
         }
     }
 
     function activeButton(id) {
         removeClassActive();
-        var element = document.getElementById(id).parentNode;
+        var element = document.getElementById(id).parentNode.parentNode;
         element.classList.add('active');
     }
 
-    const first = props.id === 'btn-1';
+    var classes = props.path === window.location.pathname ? 'button-spacer active' : 'button-spacer';
     return (
-        <>
-            { first ? (
-                <div className="button-spacer active">
-                    <button id={props.id} className='button-side-bar' onClick={() => activeButton(props.id)} type='button'>
-                        <span>{props.label}</span>
-                    </button>
-                </div>
-                ) : (
-                <div className="button-spacer">
-                    <button id={props.id} className='button-side-bar' onClick={() => activeButton(props.id)} type='button'>
-                        <span>{props.label}</span>
-                    </button>
-                </div>
-                )
-            }
-        </>
+        <div className={classes}>
+            <Link to={props.path}>
+                <button id={props.id} className='button-side-bar' onClick={() => activeButton(props.id)} type='button'>
+                    <span>{props.label}</span>
+                </button>
+            </Link>
+        </div>
     )
 }
 
@@ -76,11 +67,11 @@ const sideBar = () => {
     return (
         <div className='sideBar-container'>
             <div className='buttons-container'>
-                <ButtonSideBar label={'Feed'} id={'btn-1'} />
-                <ButtonSideBar label={'Alunos'} id={'btn-2'} />
-                <ButtonSideBar label={'Avaliação Física'} id={'btn-3'} />
-                <ButtonSideBar label={'Plano Alimentar'} id={'btn-4'} />
-                <ButtonSideBar label={'Meu Cadastro'} id={'btn-5'} />
+                <ButtonSideBar label={'Feed'} id={'btn-1'} path={'/professional'} />
+                <ButtonSideBar label={'Alunos'} id={'btn-2'} path={'/professional/students'} />
+                <ButtonSideBar label={'Avaliação Física'} id={'btn-3'} path={'/professional/evaluation'} />
+                <ButtonSideBar label={'Plano Alimentar'} id={'btn-4'} path={'/professional/plan'} />
+                <ButtonSideBar label={'Meu Cadastro'} id={'btn-5'} path={'/professional/cadastre'} />
             </div>
             <SearchPerson />
         </div>
