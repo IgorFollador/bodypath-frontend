@@ -1,0 +1,65 @@
+@import '../../index.scss';
+
+.section-main {
+  margin: 100px;
+  display: flex;
+  height: calc(100vh - 100px);
+  overflow-x: none;
+
+  &>div {
+    width: 50%;
+    padding: 50px;
+  }
+
+  .main-text {
+    display: flex;
+    flex-direction: column;
+    
+    div {
+      width: 100%;
+    }
+
+    .main-title {
+      h1 {
+        margin-bottom: 50px;
+      }
+
+      span {
+        color: $color1;
+      }
+    }
+
+    .main-links {
+      display: flex;
+      flex-direction: column;
+      font-size: 22px;
+      align-items: center;
+      background-color: $color3;
+      padding: 20px 0;
+      border-radius: 10px;
+
+      a {
+        border-radius: 7px;
+        padding: 5px;
+        margin: 5px 40px;
+
+        &:hover {
+          color: $color1;
+          transform: scale(1.1);
+        }
+      }
+    }
+  }
+  
+  .main-image {
+    display: inline-block;
+    margin: 4px;
+  
+    img {
+      height: 100%;
+      width: auto;
+      background: no-repeat center;
+      background-size: cover;
+    }
+  }
+}

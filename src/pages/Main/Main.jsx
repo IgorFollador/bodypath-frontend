@@ -1,5 +1,5 @@
-import './Main.css';
-import image from '../images/image-gym.png'
+import './Main.scss';
+import image from '../../images/image-gym.png'
 
 const Main = () => {
   return (

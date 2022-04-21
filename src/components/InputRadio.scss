@@ -1,0 +1,41 @@
+@import '../index.scss';
+
+.input-label-radio {
+
+    .input-radio-default {
+        display: none;
+
+        &:checked+label {
+            color: $color1 !important;
+
+            &::before {
+                content: '•';
+                color: $color1;
+                font-size: 30px;
+                line-height: 10px;
+                text-align: center;
+            }
+        }
+    }
+
+    .label-radio-default {
+        color: $color10;
+        cursor: pointer;
+        position: relative;
+        padding-left: 20px;
+        margin-right: 15px;
+
+        &::before {
+            left: 0;
+            width: 13px;
+            bottom: 3px;
+            content: '';
+            height: 13px;
+            position: absolute;
+            margin-right: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            background-color: $color5;
+        }
+    }
+}
