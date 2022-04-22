@@ -1,7 +1,7 @@
 {
   "name": "bodypath",
   "version": "0.1.0",
-  "homepage": "./",
+  "homepage": "./github-pages",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.2",
