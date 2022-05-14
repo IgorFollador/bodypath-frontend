@@ -8,6 +8,7 @@ import SectionStudents from './pages/Professional/SectionStudents';
 import SectionFeed from './pages/Professional/SectionFeed';
 import SectionFoodPlan from './pages/Professional/SectionFoodPlan';
 import SectionCadastre from './pages/Professional/SectionCadastre';
+import CrudStudents from './pages/Professional/CrudUser';
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
             <Route index element= { <SectionFeed /> }/>
             <Route path='evaluation' element= { <SectionPhysicEval /> }/>
             <Route path='students' element= { <SectionStudents /> }/>
+            <Route path='students/create' element= { <CrudStudents /> }/>
             <Route path='plan' element= { <SectionFoodPlan /> }/>
             <Route path='cadastre' element= { <SectionCadastre /> }/>
         </Route>
