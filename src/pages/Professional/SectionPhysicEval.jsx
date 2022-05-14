@@ -41,31 +41,33 @@ export default function SectionPhysicEval() {
 
                     <div className='div-measurements-data div-data'>
                         <h3>Medidas (mm):</h3>
-                        <div>
-                            <InputText id='input-pro-eval-neck' fieldName='Pescoço'/>
-                            <InputText id='input-pro-eval-waist' fieldName='Cintura'/>
+                        <div className='input-centralize'>
+                            <div>
+                                <InputText id='input-pro-eval-neck' fieldName='Pescoço'/>
+                                <InputText id='input-pro-eval-waist' fieldName='Cintura'/>
+                            </div>
+                            <div>
+                                <InputText id='input-pro-eval-thorax' fieldName='Tórax'/>
+                                <InputText id='input-pro-eval-abdomen' fieldName='Abdômen'/>
+                            </div>
+                            <div>
+                                <InputText id='input-pro-eval-rightarm' fieldName='Braço Direito'/>
+                                <InputText id='input-pro-eval-leftarm' fieldName='Braço Esquerdo'/>
+                            </div>
+                            <div>
+                                <InputText id='input-pro-eval-rightforearm' fieldName='Antebraço D'/>
+                                <InputText id='input-pro-eval-leftforearm' fieldName='Antebraço E'/>
+                            </div>
+                            <div>
+                                <InputText id='input-pro-eval-rightupperthigh' fieldName='Coxa Superior D'/>
+                                <InputText id='input-pro-eval-leftupperthigh' fieldName='Coxa Superior E'/>
+                            </div>
+                            <div>
+                                <InputText id='input-pro-eval-rightmiddlethigh' fieldName='Coxa Média D'/>
+                                <InputText id='input-pro-eval-leftmiddlethigh' fieldName='Coxa Média E'/>
+                            </div>
+                            <InputText id='input-pro-eval-hip' fieldName='Quadril'/>
                         </div>
-                        <div>
-                            <InputText id='input-pro-eval-thorax' fieldName='Tórax'/>
-                            <InputText id='input-pro-eval-abdomen' fieldName='Abdômen'/>
-                        </div>
-                        <div>
-                            <InputText id='input-pro-eval-rightarm' fieldName='Braço Direito'/>
-                            <InputText id='input-pro-eval-leftarm' fieldName='Braço Esquerdo'/>
-                        </div>
-                        <div>
-                            <InputText id='input-pro-eval-rightforearm' fieldName='Antebraço D'/>
-                            <InputText id='input-pro-eval-leftforearm' fieldName='Antebraço E'/>
-                        </div>
-                        <div>
-                            <InputText id='input-pro-eval-rightupperthigh' fieldName='Coxa Superior D'/>
-                            <InputText id='input-pro-eval-leftupperthigh' fieldName='Coxa Superior E'/>
-                        </div>
-                        <div>
-                            <InputText id='input-pro-eval-rightmiddlethigh' fieldName='Coxa Média D'/>
-                            <InputText id='input-pro-eval-leftmiddlethigh' fieldName='Coxa Média E'/>
-                        </div>
-                        <InputText id='input-pro-eval-hip' fieldName='Quadril'/>
                     </div>
                 </div>
                 <div className='div-inputs-secondrow'>
@@ -103,10 +105,10 @@ export default function SectionPhysicEval() {
                                 <InputText id='input-pro-eval-femoral3' fieldName='Femural médio'/>
                             </div>
                             <div className='average-measurements'>
-                                <h4>Média das três Medidas:</h4>
-                                <InputText id='input-pro-eval-subscapularis1' fieldName='Subescapular'/>
-                                <InputText id='input-pro-eval-triceps1' fieldName='Tríceps'/>
-                                <InputText id='input-pro-eval-breastplate1' fieldName='Peitoral'/>
+                                <h4>Média das Três Medidas:</h4>
+                                <InputText id='input-pro-eval-subscapularis' fieldName='Subescapular'/>
+                                <InputText id='input-pro-eval-triceps' fieldName='Tríceps'/>
+                                <InputText id='input-pro-eval-breastplate' fieldName='Peitoral'/>
                                 <InputText id='input-pro-eval-axillary' fieldName='Axilar média'/>
                                 <InputText id='input-pro-eval-suprailiac' fieldName='Supra-ilíaca'/>
                                 <InputText id='input-pro-eval-abdomnal' fieldName='Abdominal'/>

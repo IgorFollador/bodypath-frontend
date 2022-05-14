@@ -55,7 +55,7 @@ function SearchPerson() {
             <img className='icon-search' src={iconSearch} alt='Icone de busca' />
             <div className='list-people'>
                 {returnPeople().map((person, i) => {
-                    return (<div className='item-person' key={person.id}>{person.firstName + ' ' + person.lastName}</div>)
+                    return (<div className='item-person' key={'min-student-' + person.id}>{person.firstName + ' ' + person.lastName}</div>)
                 })}
             </div>
             <button className='button-add'>Adicionar<img className='img-plus' src={plus} alt='Mais'/></button>

@@ -52,14 +52,20 @@
         }
 
         .div-measurements-data {
-            &>div {
+            .input-centralize {
                 display: flex;
+                align-items: center;
+                flex-direction: column;
 
-                .input-label-default {
-                    margin: 7px 0;
-
-                    &:first-child {
-                        margin-right: 10px;
+                &>div {
+                    display: flex;
+    
+                    .input-label-default {
+                        margin: 7px 0;
+    
+                        &:first-child {
+                            margin-right: 10px;
+                        }
                     }
                 }
             }
@@ -87,10 +93,14 @@
 
                 &>div {
                     width: 24.3%;
-                    text-align: center;
+                    display: flex;
+                    align-items: center;
+                    flex-direction: column;
 
                     .input-label-default {
-                        margin: 10px 0;
+                        margin: 7px 0;
+                        width: 100%;
+                        max-width: 350px;
                     }
                 }
             }

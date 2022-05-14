@@ -6,7 +6,7 @@
     
     .input-text-default {
         width: 100%; //Input width
-        height: 33px;
+        height: 40px;
         padding: 0 7px; //Input padding left
         border-width: 0;
         font-size: 16px;
@@ -16,7 +16,7 @@
             cursor: text;
             display: flex;
             color: $color10;
-            margin-top: 5px;
+            margin-top: 9px;
             font-size: 16px;
             margin-left: 7px; //Input padding left - Input width
             position: absolute;
@@ -27,12 +27,12 @@
         }
     
         &:focus, &.min-label {
-            padding-top: 10px;
             margin-top: 0;
+            padding-top: 10px;
             
             &+label {
                 margin-top: 0;
-                font-size: 10px;
+                font-size: 11px;
                 align-items: flex-start;
                 transition: font-size .2s;
             }
