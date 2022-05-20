@@ -1,14 +1,14 @@
 import './CrudUser.scss';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import InputText from '../../components/InputText';
 import InputRadio from '../../components/InputRadio';
 
-export default function CrudUser(props) {
+export default function CrudUser() {
 
-    function spreadInfos(props) {
-        if(props.userId) {
-            //se vier o Id pelas props significa que é edição, então deve ser preenchido o crud com os dados do user
-        }
+    const { id } = useParams();
+    if(id) {
+        console.log(id)
+        //fazer requisição para buscar os dados do usuário através do id, e preencher o crud com os dados da requisição
     }
 
     function constructJson(event) {
@@ -27,7 +27,8 @@ export default function CrudUser(props) {
                        event.target[11].value,
             'observation': event.target[12].value,
         }
-        console.log(obj)
+        console.log(JSON.stringify(obj))
+        console.log(JSON.parse(JSON.stringify(obj)))
     }
 
     return (
@@ -70,9 +71,9 @@ export default function CrudUser(props) {
                 </div>
             </div>
             <div className='div-btn-save'>
-                {/* <Link to={'/professional/students'}> */}
+                <Link to={'/professional/students'}>
                     <button type='submit' className='btn btn-save'>Salvar</button>
-                {/* </Link> */}
+                </Link>
             </div>
         </form>
     )

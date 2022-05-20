@@ -18,10 +18,11 @@ function App() {
       <Routes>
 			  <Route path='/' element={ <Main /> }/>
 			  <Route path='/professional' element={ <Professional /> }>
-            <Route index element= { <SectionFeed /> }/>
+            <Route path='feed' element= { <SectionFeed /> }/>
             <Route path='evaluation' element= { <SectionPhysicEval /> }/>
             <Route path='students' element= { <SectionStudents /> }/>
-            <Route path='students/create' element= { <CrudStudents /> }/>
+              <Route path='students/create' element= { <CrudStudents /> }/>
+              <Route path='students/update/:id' element= { <CrudStudents /> }/>
             <Route path='plan' element= { <SectionFoodPlan /> }/>
             <Route path='cadastre' element= { <SectionCadastre /> }/>
         </Route>

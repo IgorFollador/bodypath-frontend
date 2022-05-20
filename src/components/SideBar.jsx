@@ -17,7 +17,7 @@ function ButtonSideBar(props) {
         element.classList.add('active');
     }
 
-    var classes = props.path === window.location.pathname ? 'button-spacer active' : 'button-spacer';
+    var classes = window.location.pathname.includes(props.path) ? 'button-spacer active' : 'button-spacer';
     return (
         <div className={classes}>
             <Link to={props.path}>
@@ -67,7 +67,7 @@ const sideBar = () => {
     return (
         <div className='sideBar-container'>
             <div className='buttons-container'>
-                <ButtonSideBar label={'Feed'} id={'btn-1'} path={'/professional'} />
+                <ButtonSideBar label={'Feed'} id={'btn-1'} path={'/professional/feed'} />
                 <ButtonSideBar label={'Alunos'} id={'btn-2'} path={'/professional/students'} />
                 <ButtonSideBar label={'Avaliação Física'} id={'btn-3'} path={'/professional/evaluation'} />
                 <ButtonSideBar label={'Plano Alimentar'} id={'btn-4'} path={'/professional/plan'} />

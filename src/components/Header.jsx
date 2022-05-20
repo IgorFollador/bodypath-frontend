@@ -4,7 +4,7 @@ import logout from '../images/logout.png';
 
 function ButtonEnter() {
   return (
-    <a href="/professional">
+    <a href="/professional/feed">
       <button className="button-enter">Entrar</button>
     </a>
   );

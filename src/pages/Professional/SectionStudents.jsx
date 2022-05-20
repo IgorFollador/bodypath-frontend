@@ -6,10 +6,10 @@ import exclude from '../../images/exclude.png';
 
 export default function SectionStudents() {
     function ListStudents() {
+
         function returnPeople() {
             //Array estático até ter a consulta ao back-end
             var arrPeople = [
-                {id: 0, firstName: 'Jaisson', lastName: 'Bassanesi'},
                 {id: 1, firstName: 'Bernardo', lastName: 'Witkoski'},
                 {id: 2, firstName: 'Diego', lastName: 'Gielda'},
                 {id: 3, firstName: 'Matheus', lastName: 'Grigoleto'},
@@ -21,6 +21,7 @@ export default function SectionStudents() {
                 {id: 9, firstName: 'Caroline', lastName: 'Kolassa'},
                 {id: 10, firstName: 'Pedro', lastName: 'Lucas Agostini'},
                 {id: 11, firstName: 'João Vitor', lastName: 'Kichel'},
+                {id: 12, firstName: 'Jaisson', lastName: 'Bassanesi'},
             ];
             return arrPeople;
         }
@@ -34,7 +35,9 @@ export default function SectionStudents() {
                                 <div className='item-person'>
                                     <span>{person.firstName + ' ' + person.lastName}</span>
                                 </div>
-                                <button className='btn btn-edit'><img src={edit} alt='Editar' /></button>
+                                <Link to={'/professional/students/update/' + person.id}>
+                                    <button className='btn btn-edit'><img src={edit} alt='Editar' /></button>
+                                </Link>
                                 <button className='btn btn-exclude'><img src={exclude} alt='Excluir' /></button>
                             </div>
                         )
