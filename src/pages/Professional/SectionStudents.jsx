@@ -3,33 +3,44 @@ import { Link } from 'react-router-dom';
 import plus from '../../images/plus.png';
 import edit from '../../images/edit.png';
 import exclude from '../../images/exclude.png';
+import React, { useEffect, useState } from 'react';
 
 export default function SectionStudents() {
     function ListStudents() {
+        //Array estático até ter a consulta ao back-end
+        const [arrPeople, setArrPeople] = useState([]);
+        
+        useEffect(() => {
+            fetch('http://localhost:3001/users')
+                .then(response => response.json())
+                .then(data => {arr(data)})
+        }, [])
 
-        function returnPeople() {
-            //Array estático até ter a consulta ao back-end
-            var arrPeople = [
-                {id: 1, firstName: 'Bernardo', lastName: 'Witkoski'},
-                {id: 2, firstName: 'Diego', lastName: 'Gielda'},
-                {id: 3, firstName: 'Matheus', lastName: 'Grigoleto'},
-                {id: 4, firstName: 'Leonardo', lastName: 'Vicente'},
-                {id: 5, firstName: 'Leonardo', lastName: 'Corrêa'},
-                {id: 6, firstName: 'Vinicius', lastName: 'Trentin'},
-                {id: 7, firstName: 'Bernardo', lastName: 'Barro'},
-                {id: 8, firstName: 'Maicon', lastName: 'Miosso'},
-                {id: 9, firstName: 'Caroline', lastName: 'Kolassa'},
-                {id: 10, firstName: 'Pedro', lastName: 'Lucas Agostini'},
-                {id: 11, firstName: 'João Vitor', lastName: 'Kichel'},
-                {id: 12, firstName: 'Jaisson', lastName: 'Bassanesi'},
-            ];
-            return arrPeople;
+        const arr = props => {
+            setArrPeople(props);
         }
-    
+
+        const deleteUser = (id) => {
+            fetch('http://localhost:3001/users/' + id, {
+                method: 'DELETE',
+            })
+            .then(response => response.json())
+            .then(data => {
+                const arrRefresh = arrPeople.filter(user => {
+                    return user.id !== id;
+                });
+                console.log('arr:', arrRefresh)
+                setArrPeople(arrRefresh);
+            })
+            .catch(error => {
+                console.error("Error on delete user:", error)
+            });
+        }
+
         return (
             <>
                 <div className='list-people'>
-                    {returnPeople().map((person, i) => {
+                    {arrPeople.map(person => {
                         return (
                             <div className='student-line' key={'student-' + person.id}>
                                 <div className='item-person'>
@@ -38,7 +49,7 @@ export default function SectionStudents() {
                                 <Link to={'/professional/students/update/' + person.id}>
                                     <button className='btn btn-edit'><img src={edit} alt='Editar' /></button>
                                 </Link>
-                                <button className='btn btn-exclude'><img src={exclude} alt='Excluir' /></button>
+                                <button className='btn btn-exclude' onClick={()=>{deleteUser(person.id)}}><img src={exclude} alt='Excluir' /></button>
                             </div>
                         )
                     })}

@@ -2,8 +2,19 @@ import './CrudUser.scss';
 import { Link, useParams } from 'react-router-dom';
 import InputText from '../../components/InputText';
 import InputRadio from '../../components/InputRadio';
+import React, { useEffect, useState } from 'react';
 
 export default function CrudUser() {
+    const initData = {
+        firstName: '',
+        lastName: '',
+        email: '',
+        cpf: '',
+        phone: '',
+        adress: '',
+    }
+
+    const [crudData, setCrudData] = useState(initData);
 
     const { id } = useParams();
     if(id) {
@@ -17,25 +28,39 @@ export default function CrudUser() {
             'firstName': event.target[0].value,
             'lastName': event.target[1].value,
             'email': event.target[2].value,
-            'birthDate': event.target[4].value,
             'cpf': event.target[5].value,
             'phone': event.target[6].value,
-            'address': event.target[7].value + ', ' +
-                       event.target[8].value + ', ' +
-                       event.target[9].value + ', ' +
-                       event.target[10].value + ', ' +
-                       event.target[11].value,
-            'observation': event.target[12].value,
+            'adress': event.target[10].value + ', ' +
+            event.target[11].value + ' - ' +
+            event.target[8].value + ' - ' +
+            event.target[7].value,
         }
-        console.log(JSON.stringify(obj))
-        console.log(JSON.parse(JSON.stringify(obj)))
+        setCrudData(obj);
+        // console.log(JSON.stringify(obj))
+        // console.log(JSON.parse(JSON.stringify(obj)))
+        
+        fetch('http://localhost:3001/users', {
+            method: 'POST',
+            // headers: {
+            //     'Content-Type': 'application/json',
+            // },
+            // mode: "no-cors",
+            body: JSON.stringify(crudData),
+        }).then(response => response.json())
+        .then(data => {
+            console.log(event)
+            console.log("Success:",data)
+        })
+        .catch(error => {
+            console.error("Error:",error)
+        }); 
     }
-
+    
     return (
         <form  onSubmit={constructJson}>
             <div className='div-crud'>
                 <div className='div-double-input'>
-                    <InputText id='input-pro-stud-firstname' fieldName='Nome' required/>
+                    <InputText id='input-pro-stud-firstname' fieldName='Nome' />
                     <InputText id='input-pro-stud-lastname' fieldName='Sobrenome' />
                 </div>
                 <div className='div-double-input'>
@@ -71,9 +96,9 @@ export default function CrudUser() {
                 </div>
             </div>
             <div className='div-btn-save'>
-                <Link to={'/professional/students'}>
+                {/* <Link to={'/professional/students'}> */}
                     <button type='submit' className='btn btn-save'>Salvar</button>
-                </Link>
+                {/* </Link> */}
             </div>
         </form>
     )
