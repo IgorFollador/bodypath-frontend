@@ -13,7 +13,7 @@ export default function InputText(props) {
 
     return (
         <div className="input-label-default">
-            <InputMask id={props.id} className='input-text-default' type="text" mask={props.mask} onBlur={() => addMinLabel(props.id)} autoComplete='off'/>
+            <InputMask id={props.id} name={props.fieldName} className='input-text-default' type="text" mask={props.mask} onBlur={() => addMinLabel(props.id)} autoComplete='off' />
             <label htmlFor={props.id}>{props.fieldName}</label>
         </div>
     )
