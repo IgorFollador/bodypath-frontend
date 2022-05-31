@@ -20,7 +20,7 @@ export default function SectionStudents() {
             setArrPeople(props);
         }
 
-        const deleteUser = (id) => {
+        const deleteUser = id => {
             fetch('http://localhost:3001/users/' + id, {
                 method: 'DELETE',
             })
@@ -37,13 +37,17 @@ export default function SectionStudents() {
             });
         }
 
+        const redirectUpdate = (id) => {
+            window.location.href = '/professional/students/update/' + id;
+        }
+
         return (
             <>
                 <div className='list-people'>
                     {arrPeople.map(person => {
                         return (
                             <div className='student-line' key={'student-' + person.id}>
-                                <div className='item-person'>
+                                <div className='item-person' onDoubleClick={()=>{redirectUpdate(person.id)}}>
                                     <span>{person.firstName + ' ' + person.lastName}</span>
                                 </div>
                                 <Link to={'/professional/students/update/' + person.id}>

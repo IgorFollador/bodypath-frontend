@@ -3,6 +3,7 @@
 .input-label-default {
     display: flex;
     margin: 5px 0;
+    flex-direction: column;
     
     .input-text-default {
         width: 100%; //Input width
@@ -42,5 +43,11 @@
             border-width: 2px;
             border-color: $color1;
         }
+    }
+
+    span {
+        color: $color11;
+        font-size: 12px;
+        margin-left: 5px;
     }
 }
