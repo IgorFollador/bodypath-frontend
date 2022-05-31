@@ -75,7 +75,7 @@ export default function CrudUser() {
         data.cpf !== '' ? obj.cpf = data.cpf : obj = obj;
         data.phone !== '' ? obj.phone = data.phone : obj = obj;
         data.password !== '' ? obj.password = data.password : obj = obj;
-        data.profile_id !== null ? obj.profile_id = data.profile_id : obj = obj;
+        data.profile_id !== null ? obj.profile_id = data.profile_id : obj.profile_id = 4;
         if (data.street !== '' || data.number !== '' || data.city !== '' || data.state !== '') {
             obj.address = street + ', ' + number + ' - ' + city + ' - ' + state;
         }
