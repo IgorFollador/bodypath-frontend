@@ -11,7 +11,7 @@ export default function SectionStudents() {
         const [arrPeople, setArrPeople] = useState([]);
         
         useEffect(() => {
-            fetch('http://localhost:3001/users')
+            fetch('http://localhost:3001/users/names')
                 .then(response => response.json())
                 .then(data => {arr(data)})
         }, [])
