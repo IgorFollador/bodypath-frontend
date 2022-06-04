@@ -18,6 +18,7 @@ header {
       height: 100%;
       display: flex;
       padding: 0 200px;
+      user-select: none;
       align-items: center;
       justify-content: space-between;
 
@@ -35,7 +36,7 @@ header {
         border-radius: 7px;
         border-color: $color1;
         background-color: $color3;
-        transition: background-color .4s;
+        transition: background-color .2s;
 
         &:hover {
           background-color: $color1;
@@ -44,6 +45,7 @@ header {
       
       .hello-user {
         display: flex;
+        user-select: none;
         
         .img-logout {
           height: 23px;

@@ -1,0 +1,117 @@
+@import '../../index.scss';
+
+.div-scroller {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid $color1;
+
+    .input-search {
+        width: 100%;
+        height: 30px;
+        color: $color5;
+        font-size: 14px;
+        padding-left: 7px;
+        border-width: 1px;
+        border-radius: 7px;
+        padding-right: 30px;
+        margin-bottom: 10px;
+        border-color: $color5;
+        background-color: transparent;
+    }
+
+    .list-people {
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        padding: 0 10px;
+        color: $color5;
+        max-height: calc(100vh - 300px);
+
+        .student-line {
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+
+            .item-person {
+                height: 40px;
+                display: flex;
+                font-size: 20px;
+                cursor: pointer;
+                overflow: hidden;
+                padding: 2px 5px;
+                margin-bottom: 5px;
+                border-radius: 5px;
+                white-space: nowrap;
+                align-items: center;
+                text-overflow: ellipsis;
+                width: calc(100% - 100px);
+                background-color: $color7;
+
+                span {
+                    margin-left: 10px;
+                }
+            }
+        }
+
+        &::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: $color7;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: $color10;
+            border-radius: 10px;
+
+            &:hover {
+                background-color: $color8;
+            }
+        }
+    }
+}
+            
+.btn {
+    width: 60px;
+    height: 40px;
+    display: flex;
+    color: $color5;
+    font-size: 20px;
+    margin-left: 7px;
+    user-select: none;
+    border-radius: 5px;
+    align-items: center;
+    justify-content: center;
+    border: 2px $color1 solid;
+    background-color: transparent;
+    transition: background-color .2s;
+
+    &:hover {
+        background-color: $color1;
+    }
+
+    img {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+.div-btn-add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .btn-add {
+        width: auto;
+        margin-top: 20px;
+        padding: 15px 20px;
+    
+        img {
+            height: 20px;
+            margin-left: 10px;
+        }
+    }
+}

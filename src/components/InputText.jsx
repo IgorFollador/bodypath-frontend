@@ -1,4 +1,5 @@
-import './InputText.scss'
+import './InputText.scss';
+import InputMask from 'react-input-mask';
 
 //Use default value in props 'id' of the InputText, as: input-abbreviated page name-abbreviated section name-field name (without spaces).
 //Example: input-pro-eval-name -> input / professional page / section physical evaluation / field name.
@@ -12,7 +13,7 @@ export default function InputText(props) {
 
     return (
         <div className="input-label-default">
-            <input id={props.id} className='input-text-default' type="text" onBlur={() => addMinLabel(props.id)} autoComplete='off'/>
+            <InputMask id={props.id} name={props.fieldName} className='input-text-default' type="text" mask={props.mask} onBlur={() => addMinLabel(props.id)} autoComplete='off' />
             <label htmlFor={props.id}>{props.fieldName}</label>
         </div>
     )
