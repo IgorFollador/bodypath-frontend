@@ -1,7 +1,7 @@
 import './CrudUser.scss';
 import { useParams } from 'react-router-dom';
-import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import React, { useState, useEffect } from 'react';
 import '../../components/InputText.scss';
 import '../../components/InputRadio.scss';
 
@@ -12,27 +12,27 @@ export default function CrudUser() {
     const [lastNameIsValid, setLastNameIsValid] = useState(true);
     const [emailIsValid, setEmailIsValid] = useState(true);
     const [confirmEmailIsValid, setConfirmEmailIsValid] = useState(true);
-    // const [cpfIsValid, setCpfIsValid] = useState(true);
-    // const [phoneIsValid, setPhoneIsValid] = useState(true);
-    // const [stateIsValid, setStateIsValid] = useState(true);
-    // const [cityIsValid, setCityIsValid] = useState(true);
-    // const [streetIsValid, setStreetIsValid] = useState(true);
-    // const [numberIsValid, setNumberIsValid] = useState(true);
-    const idsFields = ['input-pro-stud-firstname', 'input-pro-stud-lastname', 'input-pro-stud-email', 'input-pro-stud-confirmemail',
-    'input-pro-stud-cpf', 'input-pro-stud-phone', 'input-pro-stud-state', 'input-pro-stud-city', 'input-pro-stud-street', 'input-pro-stud-number'];
-    var userValues;
+    const [cpfIsValid, setCpfIsValid] = useState(true);
+    const [phoneIsValid, setPhoneIsValid] = useState(true);
+    const [stateIsValid, setStateIsValid] = useState(true);
+    const [cityIsValid, setCityIsValid] = useState(true);
+    const [streetIsValid, setStreetIsValid] = useState(true);
+    const [numberIsValid, setNumberIsValid] = useState(true);
+    const [enableSaveButton, setEnableSaveButton] = useState(true);
+    const [userValues, setUserValues] = useState([]);
+    const idsFields = ['input-pro-stud-firstname', 'input-pro-stud-lastname', 'input-pro-stud-email', 'input-pro-stud-confirmemail', 'input-pro-stud-cpf', 
+          'input-pro-stud-phone', 'input-pro-stud-state', 'input-pro-stud-city', 'input-pro-stud-street', 'input-pro-stud-number'];
 
     const spreadUserData = () => {
         fetch('http://localhost:3001/users/' + id).then(response => response.json())
         .then(data => {
-                console.log('DATA', data)
                 const address1 = data.address.split(', ');
                 const address2 = address1[1].split(' - ');                                                   //state         city        street       number
                 const values = [data.firstName, data.lastName, data.email, data.email, data.cpf, data.phone, address2[2], address2[1], address1[0], address2[0]]
                 const div = document.querySelector('#form-crud-user .div-crud').children;
                 const permission = data.profile_id;
                 var countDivs = 0;
-                userValues = values;
+                setUserValues(values);
 
                 for (var i = 0; i < values.length; i++) {
                     if (i%2 === 0) {
@@ -44,7 +44,6 @@ export default function CrudUser() {
                         countDivs++;
                     }
                 }
-                console.log(permission)
                 if (permission === 1) {
                     document.getElementById('radio-pro-stud-admin').checked = true;
                 } else if (permission === 2) {
@@ -82,37 +81,46 @@ export default function CrudUser() {
         return obj;
     }
 
-    const asyncPutCall = async data => {
-        console.log(data)
+    const verifyDataForm = () => {
+        idsFields.forEach(id => {
+            var field = id.split('-')[3];
+            validateFileds(id, field);
+        })
+    }
+
+    const submitForm = data => {
         const obj = returnObj(data);
+        verifyDataForm();
+        id ? asyncPutCall(obj) : asyncPostCall(obj);
+    }
+
+    const asyncPutCall = async data => {
         try {
             const response = await fetch('http://localhost:3001/users/' + id, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(obj)
+                body: JSON.stringify(data)
             });
             const content = await response.json();
-            alert("Success:" + content);
+            alert("Usuário alterado com sucesso!");
         } catch(error) {
             alert(error);
         } 
     }
 
     const asyncPostCall = async data => {
-        const obj = returnObj(data);
-        console.log(obj)
         try {
             const response = await fetch('http://localhost:3001/users', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(obj)
+                body: JSON.stringify(data)
             });
             const content = await response.json();
-            alert("Success:" + content);
+            alert("Usuário cadastrado com sucesso!");
         } catch(error) {
             alert(error);
         } 
@@ -125,50 +133,92 @@ export default function CrudUser() {
         input.classList.remove('min-label');
         validateFileds(id, field);
     }
-    
+
     const validateFileds = (id, field) => {
         const fieldValue = document.getElementById(id).value;
         if (field === 'firstname') {
-            setFirstNameIsValid(onlyLettersValidation(fieldValue));
+            setFirstNameIsValid(validateNames(fieldValue));
         } else if (field === 'lastname') {
-            setLastNameIsValid(onlyLettersValidation(fieldValue));
+            setLastNameIsValid(validateNames(fieldValue));
         } else if (field === 'email') {
             var regex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi;
             setEmailIsValid(regex.test(fieldValue));
         } else if (field === 'confirmemail') {
-            var isValid = fieldValue === document.querySelector('#input-pro-stud-email').value;
+            var isValid = (fieldValue === document.querySelector('#input-pro-stud-email').value) && !fieldIsEmpty(fieldValue);
             setConfirmEmailIsValid(isValid);
-        } else if (field === 'lastname') {
-            // setLastNameIsValid(simpleValidation(fieldValue));
-        } else if (field === 'lastname') {
-            // setLastNameIsValid(simpleValidation(fieldValue));
-        } else if (field === 'lastname') {
-            // setLastNameIsValid(simpleValidation(fieldValue));
-        } else if (field === 'lastname') {
-            // setLastNameIsValid(simpleValidation(fieldValue));
-        } else if (field === 'lastname') {
-            // setLastNameIsValid(simpleValidation(fieldValue));
-        } else if (field === 'lastname') {
-            // setLastNameIsValid(simpleValidation(fieldValue));
+        } else if (field === 'cpf') {
+            var cpf = fieldValue.replace(/[^0-9]/g,'');
+            setCpfIsValid(validateCpf(cpf));
+        } else if (field === 'phone') {
+            var phone = fieldValue.replace(/[^0-9]/g,'');
+            var regex = new RegExp('^([0-9]{2})(([0-9]{8})|(9[0-9]{8}))$');
+            setPhoneIsValid(regex.test(phone));
+        } else if (field === 'state') {
+            var regex = /[A-Za-z]{2}/;
+            var isValid = !fieldIsEmpty(fieldValue) && regex.test(fieldValue);
+            document.getElementById('input-pro-stud-state').value = fieldValue.toUpperCase();
+            setStateIsValid(isValid);
+        } else if (field === 'city') {
+            setCityIsValid(validateNames(fieldValue));
+        } else if (field === 'street') {
+            setStreetIsValid(validateNames(fieldValue));
+        } else if (field === 'number') {
+            setNumberIsValid(!fieldIsEmpty(fieldValue));
         }
     }
 
-    const onlyLettersValidation = (value) => {
-        const regex = /^([a-zA-Zà-úÀ-Ú0-9]|-|_|\s)+$/;
+    const validateNames = value => {
+        const regex = /^([a-zA-Zà-úÀ-Ú]|-|_|\s)+$/;
         var isValid = true;
-        if (value === '' || value.length > 255 || value.length < 3 || !regex.test(value)) {
+        if (fieldIsEmpty(value) || value.length > 255 || value.length < 3 || !regex.test(value)) {
             isValid = false;
         }
         return isValid;
     }
 
+    const validateCpf = cpf => {
+        var sum = 0;
+        var rest = 0;
+        var sameNumber = true;
+        if (cpf.length === 11) {
+            for (var i = 1; i <= 9; i++) {
+                sum += parseInt(cpf[i-1]) * (11 - i);
+                if (i > 1 && cpf[i-2] !== cpf[i-1]) {
+                    sameNumber = false;
+                }
+            }
+            if (sameNumber) return false;
+            rest = (sum * 10) % 11;
+            if (rest === 10 || rest === 11) rest = 0;
+            if (rest !== parseInt(cpf[9])) return false;
+            sum = 0;
+
+            for (var m = 1; m <= 10; m++) {
+                sum += parseInt(cpf[m-1]) * (12 - m);
+            }
+            rest = (sum * 10) % 11;
+            if (rest === 10 || rest === 11) rest = 0;
+            if (rest !== parseInt(cpf[10])) return false;
+            return true;
+        }
+        return false;
+    }
+
+    const fieldIsEmpty = value => {
+        var isEmpty = false;
+        if (value === '') {
+            isEmpty = true;
+        }
+        return isEmpty;
+    }
+
     return (
-        <form id='form-crud-user' onSubmit={id ? handleSubmit(asyncPutCall) : handleSubmit(asyncPostCall)}>
+        <form id='form-crud-user' onSubmit={handleSubmit(submitForm)}>
             <div className='div-crud'>
                 <div className='div-double-input'>
                     <div className='input-label-default'>
                         <input className='input-text-default' id='input-pro-stud-firstname' fieldname='Nome' {...register("firstName")} onBlur={() => addMinLabel('input-pro-stud-firstname', 'firstname')} maxLength='255' />
-                        <label htmlFor='input-pro-stud-firstname'>Name</label>
+                        <label htmlFor='input-pro-stud-firstname'>Nome</label>
                         { !firstNameIsValid && <span>Campo inválido!</span> }
                     </div>
                     <div className='input-label-default'>
@@ -191,50 +241,52 @@ export default function CrudUser() {
                 </div>
                 <div className='div-double-input'>
                     <div className='input-label-default'>
-                        {/* <input id='input-pro-stud-birthdate' fieldname='Data de Nascimento' mask="99/99/9999" onBlur={() => addMinLabel('input-pro-stud-')} /> */}
-                        <input className='input-text-default' id='input-pro-stud-cpf' fieldname='CPF' {...register("cpf")} onBlur={() => addMinLabel('input-pro-stud-cpf', 'cpf')} maxLength='11' />
+                        <input className='input-text-default' id='input-pro-stud-cpf' fieldname='CPF' {...register("cpf")} onBlur={() => addMinLabel('input-pro-stud-cpf', 'cpf')} maxLength='14'/>
                         <label htmlFor='input-pro-stud-cpf'>CPF</label>
+                        { !cpfIsValid && <span>Campo inválido!</span> }
                     </div>
                     <div className='input-label-default'>
-                        <input className='input-text-default' id='input-pro-stud-phone' fieldname='Telefone' {...register("phone")} onBlur={() => addMinLabel('input-pro-stud-phone', 'phone')} maxLength='11' />
+                        <input className='input-text-default' id='input-pro-stud-phone' fieldname='Telefone' {...register("phone")} onBlur={() => addMinLabel('input-pro-stud-phone', 'phone')} maxLength='15'/>
                         <label htmlFor='input-pro-stud-phone'>Telefone</label>
+                        { !phoneIsValid && <span>Campo inválido!</span> }
                     </div>
                 </div>
                 <div className='div-double-input'>
                     <div className='input-label-default'>
-                        <input className='input-text-default' id='input-pro-stud-state' fieldname='Estado' {...register("state")} onBlur={() => addMinLabel('input-pro-stud-state', 'state')} maxLength='255' />
+                        <input className='input-text-default' id='input-pro-stud-state' fieldname='Estado' {...register("state")} onBlur={() => addMinLabel('input-pro-stud-state', 'state')} maxLength='2' />
                         <label htmlFor='input-pro-stud-state'>Estado</label>
+                        { !stateIsValid && <span>Campo inválido!</span> }
                     </div>
                     <div className='input-label-default'>
                         <input className='input-text-default' id='input-pro-stud-city' fieldname='Cidade' {...register("city")} onBlur={() => addMinLabel('input-pro-stud-city', 'city')} maxLength='255' />
                         <label htmlFor='input-pro-stud-city'>Cidade</label>
+                        { !cityIsValid && <span>Campo inválido!</span> }
                     </div>
                 </div>
                 <div className='div-double-input'>
                     <div className='input-label-default'>
                         <input className='input-text-default' id='input-pro-stud-street' fieldname='Rua' {...register("street")} onBlur={() => addMinLabel('input-pro-stud-street', 'street')} maxLength='255' />
                         <label htmlFor='input-pro-stud-street'>Rua</label>
+                        { !streetIsValid && <span>Campo inválido!</span> }
                     </div>
                     <div className='input-label-default'>
                         <input className='input-text-default' id='input-pro-stud-number' fieldname='Número' {...register("number")} onBlur={() => addMinLabel('input-pro-stud-number', 'number')} maxLength='5' />
                         <label htmlFor='input-pro-stud-number'>Número</label>
+                        { !numberIsValid && <span>Campo inválido!</span> }
                     </div>
                 </div>
                 {!id &&
                     <div className='div-double-input'>
                         <div className='input-label-default'>
-                            <input type='password' className='input-text-default' id='input-pro-stud-password' fieldname='Senha' {...register("password")} onBlur={() => addMinLabel('input-pro-stud-password', 'password')} maxLength='255' />
+                            <input type='password' className='input-text-default' id='input-pro-stud-password' fieldname='Senha' {...register("password")} onBlur={() => addMinLabel('input-pro-stud-password', 'password')} maxLength='255' autoComplete='new-password' />
                             <label htmlFor='input-pro-stud-number'>Senha</label>
                         </div>
                         <div className='input-label-default'>
-                            <input type='password' className='input-text-default' id='input-pro-stud-confirmpassword' fieldname='Senha' onBlur={() => addMinLabel('input-pro-stud-confirmpassword', 'confirmpassword')} maxLength='255' />
+                            <input type='password' className='input-text-default' id='input-pro-stud-confirmpassword' fieldname='Senha' onBlur={() => addMinLabel('input-pro-stud-confirmpassword', 'confirmpassword')} maxLength='255' autoComplete='off' />
                             <label htmlFor='input-pro-stud-confirmpassword'>Confirmação de senha</label>
                         </div>
                     </div>
                 }
-                {/* <div className='input-label-default'>
-                    <input id='input-pro-stud-obs' fieldname='Observações' />
-                </div> */}
                 <div className='input-radio-container'>
                     <span>Permissões:</span>
                     <div className='inputs-radio'>
@@ -254,9 +306,7 @@ export default function CrudUser() {
                 </div>
             </div>
             <div className='div-btn-save'>
-                {/* <Link to={'/professional/students'}> */}
-                    <button type='submit' className='btn btn-save'>Salvar</button>
-                {/* </Link> */}
+                <button type='submit' className='btn btn-save'>Salvar</button>
             </div>
         </form>
     )

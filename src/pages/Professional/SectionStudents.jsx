@@ -29,7 +29,6 @@ export default function SectionStudents() {
                 const arrRefresh = arrPeople.filter(user => {
                     return user.id !== id;
                 });
-                console.log('arr:', arrRefresh)
                 setArrPeople(arrRefresh);
             })
             .catch(error => {
