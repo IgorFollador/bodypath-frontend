@@ -21,7 +21,7 @@
         background-color: transparent;
     }
 
-    .list-people {
+    .list-people, .list-evaluations {
         width: 100%;
         height: 100%;
         overflow: auto;
@@ -29,12 +29,12 @@
         color: $color5;
         max-height: calc(100vh - 300px);
 
-        .student-line {
+        .student-line, .evaluation-line {
             width: 100%;
             display: flex;
             justify-content: space-around;
 
-            .item-person {
+            .item-person, .item-evaluation {
                 height: 40px;
                 display: flex;
                 font-size: 20px;

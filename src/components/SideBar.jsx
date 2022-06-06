@@ -71,7 +71,7 @@ const sideBar = () => {
             <div className='buttons-container'>
                 <ButtonSideBar label={'Feed'} id={'btn-1'} path={'/professional/feed'} />
                 <ButtonSideBar label={'Alunos'} id={'btn-2'} path={'/professional/students'} />
-                <ButtonSideBar label={'Avaliação Física'} id={'btn-3'} path={'/professional/evaluation'} />
+                <ButtonSideBar label={'Avaliação Física'} id={'btn-3'} path={'/professional/evaluations'} />
                 <ButtonSideBar label={'Plano Alimentar'} id={'btn-4'} path={'/professional/plan'} />
                 <ButtonSideBar label={'Meu Cadastro'} id={'btn-5'} path={'/professional/cadastre'} />
             </div>

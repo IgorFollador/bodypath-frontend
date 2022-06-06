@@ -1,0 +1,152 @@
+@import '../../index.scss';
+
+.div-inputs-container {
+    .div-inputs-firstrow {
+        display: flex;
+        justify-content: space-between;
+
+        .div-data {
+            width: 32%;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid $color1;
+        }
+        
+        .div-personal-data {
+            .input-label-default {
+                margin: 15px 0;
+            }
+        }
+
+        .div-fundamental-data {
+            .input-radio-container {
+                margin-top: 10px;
+                margin-left: 15px;
+                
+                .inputs-radio {
+                    margin-top: 10px;
+                    margin-left: 10px;
+
+                    input {
+                        margin: 5px;
+                    }
+
+                    label {
+                        color: $color10;
+                    }
+                }
+            }
+
+            .inputs-text {
+                width: 100%;
+                display: flex;
+
+                .input-label-default {
+                    margin: 15px 0;
+
+                    &:nth-child(2) {
+                        margin: 15px 10px;
+                    }
+                }
+            }
+        }
+
+        .div-measurements-data {
+            .input-centralize {
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+
+                &>div {
+                    display: flex;
+    
+                    .input-label-default {
+                        margin: 7px 0;
+    
+                        &:first-child {
+                            margin-right: 10px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .div-inputs-secondrow {
+        display: flex;
+        margin-top: 30px;
+        justify-content: space-between;
+
+        .div-bodyfolds-data {
+            width: 100%;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid $color1;
+
+            h3 {
+                margin-bottom: 20px;
+            }
+
+            .divs-measurements {
+                display: flex;
+                justify-content: space-between;
+
+                &>div {
+                    width: 24.3%;
+                    display: flex;
+                    align-items: center;
+                    flex-direction: column;
+
+                    .input-label-default {
+                        margin: 7px 0;
+                        width: 100%;
+                        max-width: 350px;
+                    }
+                }
+            }
+        }
+    }
+
+    .div-inputs-thirdrow {
+        display: flex;
+        margin-top: 30px;
+        justify-content: space-between;
+
+        .div-bodyresults-data {
+            width: 100%;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid $color1;
+
+            h3 {
+                margin-bottom: 20px;
+            }
+
+            .div-results {
+                display: flex;
+                flex-direction: column;
+                
+                &>div {
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                }
+
+                .first-result {
+                    .input-label-default {
+                        margin: 7px 0;
+                        width: 32.3%;
+                    }
+                }
+
+                .second-result {
+                    .input-label-default {
+                        margin: 7px 0;
+                        width: 49.1%;
+                    }
+                }
+            }
+        }
+    }
+}
