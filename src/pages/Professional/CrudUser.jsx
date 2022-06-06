@@ -18,7 +18,8 @@ export default function CrudUser() {
     const [cityIsValid, setCityIsValid] = useState(true);
     const [streetIsValid, setStreetIsValid] = useState(true);
     const [numberIsValid, setNumberIsValid] = useState(true);
-    const [enableSaveButton, setEnableSaveButton] = useState(true);
+    const [passwordIsValid, setPasswordIsValid] = useState(true);
+    const [confirmPasswordIsValid, setConfirmPasswordIsValid] = useState(true);
     const [userValues, setUserValues] = useState([]);
     const idsFields = ['input-pro-stud-firstname', 'input-pro-stud-lastname', 'input-pro-stud-email', 'input-pro-stud-confirmemail', 'input-pro-stud-cpf', 
           'input-pro-stud-phone', 'input-pro-stud-state', 'input-pro-stud-city', 'input-pro-stud-street', 'input-pro-stud-number'];
@@ -164,6 +165,12 @@ export default function CrudUser() {
             setStreetIsValid(validateNames(fieldValue));
         } else if (field === 'number') {
             setNumberIsValid(!fieldIsEmpty(fieldValue));
+        } else if (field === 'password') {
+            var isValid = fieldValue.length >= 6;
+            setPasswordIsValid(isValid);
+        } else if (field === 'confirmpassword') {
+            var isValid = (fieldValue === document.querySelector('#input-pro-stud-password').value) && !fieldIsEmpty(fieldValue);
+            setConfirmPasswordIsValid(isValid);
         }
     }
 
@@ -280,10 +287,12 @@ export default function CrudUser() {
                         <div className='input-label-default'>
                             <input type='password' className='input-text-default' id='input-pro-stud-password' fieldname='Senha' {...register("password")} onBlur={() => addMinLabel('input-pro-stud-password', 'password')} maxLength='255' autoComplete='new-password' />
                             <label htmlFor='input-pro-stud-number'>Senha</label>
+                            { !passwordIsValid && <span>Campo inválido!</span> }
                         </div>
                         <div className='input-label-default'>
                             <input type='password' className='input-text-default' id='input-pro-stud-confirmpassword' fieldname='Senha' onBlur={() => addMinLabel('input-pro-stud-confirmpassword', 'confirmpassword')} maxLength='255' autoComplete='off' />
                             <label htmlFor='input-pro-stud-confirmpassword'>Confirmação de senha</label>
+                            { !confirmPasswordIsValid && <span>Campo inválido!</span> }
                         </div>
                     </div>
                 }

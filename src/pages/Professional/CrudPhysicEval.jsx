@@ -2,14 +2,15 @@ import './CrudPhysicEval.scss';
 import '../../components/InputText.scss';
 import '../../components/InputRadio.scss';
 import { useForm } from 'react-hook-form';
-import InputText from '../../components/InputText';
-import InputRadio from '../../components/InputRadio';
 
 export default function CrudPhysicEval() {
     const { register, handleSubmit } = useForm();
 
     const addMinLabel = (id, field) => {
-        
+        var input = document.getElementById(id);
+        input.value.trim() !== '' ?
+        input.classList.add('min-label') :
+        input.classList.remove('min-label');
     }
 
     return (
