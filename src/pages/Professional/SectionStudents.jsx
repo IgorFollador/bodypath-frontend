@@ -1,4 +1,4 @@
-import './SectionStudents.scss';
+import './ProfessionalSections.scss';
 import { Link } from 'react-router-dom';
 import plus from '../../images/plus.png';
 import edit from '../../images/edit.png';
@@ -11,7 +11,7 @@ export default function SectionStudents() {
         const [arrPeople, setArrPeople] = useState([]);
         
         useEffect(() => {
-            fetch('http://localhost:3001/users/names')
+            fetch('http://localhost:10000/customer/users/names')
                 .then(response => response.json())
                 .then(data => {arr(data)})
         }, [])
@@ -21,7 +21,7 @@ export default function SectionStudents() {
         }
 
         const deleteUser = id => {
-            fetch('http://localhost:3001/users/' + id, {
+            fetch('http://localhost:10000/customer/users/' + id, {
                 method: 'DELETE',
             })
             .then(response => response.json())
@@ -42,11 +42,11 @@ export default function SectionStudents() {
 
         return (
             <>
-                <div className='list-people'>
+                <div className='list-things'>
                     {arrPeople.map(person => {
                         return (
-                            <div className='student-line' key={'student-' + person.id}>
-                                <div className='item-person' onDoubleClick={()=>{redirectUpdate(person.id)}}>
+                            <div className='list-line' key={'student-' + person.id}>
+                                <div className='item-list' onDoubleClick={()=>{redirectUpdate(person.id)}}>
                                     <span>{person.firstName + ' ' + person.lastName}</span>
                                 </div>
                                 <Link to={'/professional/students/update/' + person.id}>

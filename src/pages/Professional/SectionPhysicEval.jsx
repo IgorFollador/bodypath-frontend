@@ -1,4 +1,4 @@
-import './SectionStudents.scss';
+import './ProfessionalSections.scss';
 import { Link } from 'react-router-dom';
 import plus from '../../images/plus.png';
 import edit from '../../images/edit.png';
@@ -11,7 +11,7 @@ export default function SectionPhysicEval() {
         const [arrEval, setArrEval] = useState([]);
 
         useEffect(() => {
-            fetch('http://localhost:3002/evaluations')
+            fetch('http://localhost:10000/phyisical_evaluation/evaluations')
                 .then(response => response.json())
                 .then(data => {arr(data)})
         }, [])
@@ -21,7 +21,7 @@ export default function SectionPhysicEval() {
         }
 
         const deleteEval = id => {
-            fetch('http://localhost:3002/evaluations/' + id, {
+            fetch('http://localhost:10000/phyisical_evaluation/evaluations/' + id, {
                 method: 'DELETE',
             })
             .then(response => response.json())
@@ -43,11 +43,11 @@ export default function SectionPhysicEval() {
 
         return (
             <>
-                <div className='list-evaluations'>
+                <div className='list-things'>
                     {arrEval.map(evaluation => {
                         return (
-                            <div className='evaluation-line' key={'eval-' + evaluation._id}>
-                                <div className='item-evaluation' onDoubleClick={()=>{redirectUpdate(evaluation._id)}}>
+                            <div className='list-line' key={'eval-' + evaluation._id}>
+                                <div className='item-list' onDoubleClick={()=>{redirectUpdate(evaluation._id)}}>
                                     <span>{evaluation.biotype}</span>
                                 </div>
                                 <Link to={'/professional/evaluations/update/' + evaluation._id}>

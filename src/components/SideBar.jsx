@@ -35,7 +35,7 @@ function SearchPerson() {
     const [arrPeople, setArrPeople] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:3001/users/names')
+        fetch('http://localhost:10000/customer/users/names')
             .then(response => response.json())
             .then(data => {setArrPeople(data)})
     }, [])
@@ -72,7 +72,7 @@ const sideBar = () => {
                 <ButtonSideBar label={'Feed'} id={'btn-1'} path={'/professional/feed'} />
                 <ButtonSideBar label={'Alunos'} id={'btn-2'} path={'/professional/students'} />
                 <ButtonSideBar label={'Avaliação Física'} id={'btn-3'} path={'/professional/evaluations'} />
-                <ButtonSideBar label={'Plano Alimentar'} id={'btn-4'} path={'/professional/plan'} />
+                <ButtonSideBar label={'Plano Alimentar'} id={'btn-4'} path={'/professional/plans'} />
                 <ButtonSideBar label={'Meu Cadastro'} id={'btn-5'} path={'/professional/cadastre'} />
             </div>
             <SearchPerson />

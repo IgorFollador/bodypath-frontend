@@ -1,7 +1,7 @@
-import './CrudUser.scss';
+import './Cruds.scss';
 import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import '../../components/InputText.scss';
 import '../../components/InputRadio.scss';
 
@@ -25,7 +25,7 @@ export default function CrudUser() {
           'input-pro-stud-phone', 'input-pro-stud-state', 'input-pro-stud-city', 'input-pro-stud-street', 'input-pro-stud-number'];
 
     const spreadUserData = () => {
-        fetch('http://localhost:3001/users/' + id).then(response => response.json())
+        fetch('http://localhost:10000/customer/users/' + id).then(response => response.json())
         .then(data => {
                 const address1 = data.address.split(', ');
                 const address2 = address1[1].split(' - ');                                                   //state         city        street       number
@@ -97,7 +97,7 @@ export default function CrudUser() {
 
     const asyncPutCall = async data => {
         try {
-            const response = await fetch('http://localhost:3001/users/' + id, {
+            const response = await fetch('http://localhost:10000/customer/users/' + id, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -113,7 +113,7 @@ export default function CrudUser() {
 
     const asyncPostCall = async data => {
         try {
-            const response = await fetch('http://localhost:3001/users', {
+            const response = await fetch('http://localhost:10000/customer/users', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
