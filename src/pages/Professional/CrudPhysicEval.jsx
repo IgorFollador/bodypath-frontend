@@ -1,4 +1,4 @@
-import './CrudPhysicEval.scss';
+import './Cruds.scss';
 import '../../components/InputText.scss';
 import '../../components/InputRadio.scss';
 import { useForm } from 'react-hook-form';

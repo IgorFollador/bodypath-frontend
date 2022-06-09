@@ -28,7 +28,7 @@ function EnterOrHello(props) {
 }
 
 const Header = () => {
-  var user = {firstName: 'Jaisson', lastName:'Bassanesi'}; //Estático até termos os dados do usuário
+  var user = {firstName: 'Jaisson', lastName:'Bassanesi'}; //Estático até LOGIN
   return (
     <header>
       <div className="app-header">
