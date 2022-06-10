@@ -93,10 +93,10 @@ export default function SectionFoodPlan() {
                 <tbody className='food-plan'>
                     <tr className={`line food-1 title-food`}>
                         <td className="item food__desc">Refeição I - Café da manhã</td>
-                        <td className="item food__cal">Calorias</td>
-                        <td className="item food__carbs">Carboidratos</td>
-                        <td className="item food__fat">Gorduras</td>
-                        <td className="item food__protein">Proteínas</td>
+                        <td className="item food__cal">Calorias<br/>kcal</td>
+                        <td className="item food__carbs">Carboidratos<br/>g</td>
+                        <td className="item food__fat">Gorduras<br/>g</td>
+                        <td className="item food__protein">Proteínas<br/>g</td>
                     </tr>
                     <tr className="line food-2">
                         <td className="item food__desc">Maça - 1 unidade</td>
@@ -140,10 +140,6 @@ export default function SectionFoodPlan() {
                     </tr>
                     <tr className="line food-7 footer-food">
                         <td className='item food__desc'><a onClick={ () => setIsModalVisible(true) }>Adicionar alimento <img src={plus} alt="Adicionar" /></a></td>
-                        <td className="item food__cal">213</td>
-                        <td className="item food__carbs">2</td>
-                        <td className="item food__fat">16</td>
-                        <td className="item food__protein">17</td>
                     </tr>
 
 
@@ -160,10 +156,6 @@ export default function SectionFoodPlan() {
                     </tr>
                     <tr className="line food-10 footer-food">
                         <td className='item food__desc'><a onClick={ () => setIsModalVisible(true) }>Adicionar alimento <img src={plus} alt="Adicionar" /></a></td>
-                        <td className="item food__cal">213</td>
-                        <td className="item food__carbs">2</td>
-                        <td className="item food__fat">16</td>
-                        <td className="item food__protein">17</td>
                     </tr>
 
 
@@ -180,10 +172,6 @@ export default function SectionFoodPlan() {
                     </tr> */}
                     <tr className="line food-13 footer-food">
                         <td className='item food__desc'><a onClick={ () => setIsModalVisible(true) }>Adicionar alimento <img src={plus} alt="Adicionar" /></a></td>
-                        <td className="item food__cal">213</td>
-                        <td className="item food__carbs">2</td>
-                        <td className="item food__fat">16</td>
-                        <td className="item food__protein">17</td>
                     </tr>
 
 
@@ -200,10 +188,6 @@ export default function SectionFoodPlan() {
                     </tr> */}
                     <tr className="line food-13 footer-food">
                         <td className='item food__desc'><a onClick={ () => setIsModalVisible(true) }>Adicionar alimento <img src={plus} alt="Adicionar" /></a></td>
-                        <td className="item food__cal">213</td>
-                        <td className="item food__carbs">2</td>
-                        <td className="item food__fat">16</td>
-                        <td className="item food__protein">17</td>
                     </tr>
 
 
@@ -220,10 +204,6 @@ export default function SectionFoodPlan() {
                     </tr> */}
                     <tr className="line food-13 footer-food">
                         <td className='item food__desc'><a onClick={ () => setIsModalVisible(true) }>Adicionar alimento <img src={plus} alt="Adicionar" /></a></td>
-                        <td className="item food__cal">213</td>
-                        <td className="item food__carbs">2</td>
-                        <td className="item food__fat">16</td>
-                        <td className="item food__protein">17</td>
                     </tr>
 
 
@@ -240,10 +220,6 @@ export default function SectionFoodPlan() {
                     </tr> */}
                     <tr className="line food-13 footer-food">
                         <td className='item food__desc'><a onClick={ () => setIsModalVisible(true) }>Adicionar alimento <img src={plus} alt="Adicionar" /></a></td>
-                        <td className="item food__cal">213</td>
-                        <td className="item food__carbs">2</td>
-                        <td className="item food__fat">16</td>
-                        <td className="item food__protein">17</td>
                     </tr>
                 </tbody>
                 {isModalVisible && <ModalGeneric onClose={ () => setIsModalVisible(false) }>

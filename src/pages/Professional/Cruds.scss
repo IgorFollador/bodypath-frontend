@@ -256,8 +256,8 @@
 }
 
 .food-plan {
-    color: $color5;
     margin: 15px;
+    color: $color5;
 
     .line {
         background-color: $color4;
@@ -325,6 +325,8 @@
         }
 
         .food__desc {
+            text-align: center;
+            
             a {
                 color: $color8;
                 cursor: pointer;
