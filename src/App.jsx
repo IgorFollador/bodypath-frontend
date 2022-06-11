@@ -9,6 +9,8 @@ import SectionFeed from './pages/Professional/SectionFeed';
 import SectionFoodPlan from './pages/Professional/SectionFoodPlan';
 import SectionCadastre from './pages/Professional/SectionCadastre';
 import CrudStudents from './pages/Professional/CrudUser';
+import CrudPhysicEval from './pages/Professional/CrudPhysicEval';
+import CrudPlans from './pages/Professional/CrudFoodPlan';
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
 function App() {
@@ -19,11 +21,15 @@ function App() {
 			  <Route path='/' element={ <Main /> }/>
 			  <Route path='/professional' element={ <Professional /> }>
             <Route path='feed' element= { <SectionFeed /> }/>
-            <Route path='evaluation' element= { <SectionPhysicEval /> }/>
+            <Route path='evaluations' element= { <SectionPhysicEval /> }/>
+              <Route path='evaluations/create' element= { <CrudPhysicEval /> }/>
+              <Route path='evaluations/update/:id' element= { <CrudPhysicEval /> }/>
             <Route path='students' element= { <SectionStudents /> }/>
               <Route path='students/create' element= { <CrudStudents /> }/>
               <Route path='students/update/:id' element= { <CrudStudents /> }/>
-            <Route path='plan' element= { <SectionFoodPlan /> }/>
+            <Route path='plans' element= { <SectionFoodPlan /> }/>
+              <Route path='plans/create' element= { <CrudPlans /> }/>
+              <Route path='plans/update/:id' element= { <CrudPlans /> }/>
             <Route path='cadastre' element= { <SectionCadastre /> }/>
         </Route>
       </Routes>

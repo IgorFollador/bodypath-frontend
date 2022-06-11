@@ -1,17 +1,17 @@
-import './SectionStudents.scss';
+import './ProfessionalSections.scss';
 import { Link } from 'react-router-dom';
 import plus from '../../images/plus.png';
 import edit from '../../images/edit.png';
 import exclude from '../../images/exclude.png';
 import React, { useEffect, useState } from 'react';
 
-export default function SectionStudents() {
+export default function SectionPhysicEval() {
     function ListEvaluations() {
         //Array estático até ter a consulta ao back-end
         const [arrEval, setArrEval] = useState([]);
 
         useEffect(() => {
-            fetch('http://localhost:3001/evaluations/names')
+            fetch('http://localhost:10000/phyisical_evaluation/evaluations')
                 .then(response => response.json())
                 .then(data => {arr(data)})
         }, [])
@@ -21,7 +21,7 @@ export default function SectionStudents() {
         }
 
         const deleteEval = id => {
-            fetch('http://localhost:3001/evaluations/' + id, {
+            fetch('http://localhost:10000/phyisical_evaluation/evaluations/' + id, {
                 method: 'DELETE',
             })
             .then(response => response.json())
@@ -43,17 +43,17 @@ export default function SectionStudents() {
 
         return (
             <>
-                <div className='list-people'>
+                <div className='list-things'>
                     {arrEval.map(evaluation => {
                         return (
-                            <div className='student-line' key={'student-' + evaluation.id}>
-                                <div className='item-person' onDoubleClick={()=>{redirectUpdate(evaluation.id)}}>
-                                    <span>{evaluation.firstName + ' ' + evaluation.lastName}</span>
+                            <div className='list-line' key={'eval-' + evaluation._id}>
+                                <div className='item-list' onDoubleClick={()=>{redirectUpdate(evaluation._id)}}>
+                                    <span>{evaluation.biotype}</span>
                                 </div>
-                                <Link to={'/professional/evaluations/update/' + evaluation.id}>
+                                <Link to={'/professional/evaluations/update/' + evaluation._id}>
                                     <button className='btn btn-edit'><img src={edit} alt='Editar' /></button>
                                 </Link>
-                                <button className='btn btn-exclude' onClick={()=>{deleteEval(evaluation.id)}}><img src={exclude} alt='Excluir' /></button>
+                                <button className='btn btn-exclude' onClick={()=>{deleteEval(evaluation._id)}}><img src={exclude} alt='Excluir' /></button>
                             </div>
                         )
                     })}
@@ -68,7 +68,7 @@ export default function SectionStudents() {
                 <ListEvaluations />
             </div>
             <div className='div-btn-add'>
-                <Link to={'/professional/evaluation/create'}>
+                <Link to={'/professional/evaluations/create'}>
                     <button className='btn btn-add'>Adicionar<img src={plus} alt='Excluir' /></button>
                 </Link>
             </div>
