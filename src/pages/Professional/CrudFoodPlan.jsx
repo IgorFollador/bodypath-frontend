@@ -10,12 +10,13 @@ import plus from '../../images/plus.png';
 export default function SectionFoodPlan() {
     const { id } = useParams();
     const { register, handleSubmit } = useForm();
-    const [isModalVisible, setIsModalVisible] = useState(false);
-    const [arrFoods, setArrFoods] = useState([]);
+    const [isModalSearchVisible, setIsModalSearchVisible] = useState(false);
+    const [isModalConfirmVisible, setIsModalConfirmVisible] = useState(false);
+    const [foodAdd, setFoodAdd] = useState({});
     const [arrStudents, setArrStudents] = useState([]);
     const [arrPlans, setArrPlans] = useState([]);
     const [isEditing, setIsEditing] = useState(true);
-    const [defaultValue, setDefaultValue] = useState(arrPlans[0]);
+    const [filterFoods, setFilterFoods] = useState([]);
     //Essa chamada deverá ser alterada para o endpoint dos planos alimentares
     useEffect(() => {
         fetch('http://localhost:10000/customer/users/names')
@@ -27,7 +28,6 @@ export default function SectionFoodPlan() {
                 })
                 setArrPlans(data);
                 setArrStudents(arrPlan);
-                setDefaultValue(arrPlan[0]);
             })
     }, [])
     
@@ -39,8 +39,50 @@ export default function SectionFoodPlan() {
         }
     }, [id])
 
-    const getFoods = () => {
-        
+    const preventEnter = e => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            if (isModalSearchVisible) searchFood();
+        }
+    }
+
+    const closeSearchModal = () => {
+        document.getElementById('input-search-food').value = '';
+        setFilterFoods([]);
+        setIsModalSearchVisible(false);
+    }
+
+    const searchFood = () => {
+        var value = document.getElementById('input-search-food').value;
+        console.log(value);
+        if (value !== '') {
+            fetch('https://api-tacobp.herokuapp.com/api/v1/foods?search=' + value).then(response => response.json())
+            .then(data => {
+                setFilterFoods(data);
+            })
+        }
+    }
+
+    const closeConfirmModal = () => {
+        setFoodAdd({});
+        setIsModalConfirmVisible(false);
+    }
+
+    const openConfirmModal = food => {
+        setFoodAdd(food);
+        setIsModalConfirmVisible(true);
+        console.log(food)
+        while (!isModalConfirmVisible);
+        document.getElementById('input-pro-food-prot').value = food.attributes.protein.qty;
+        closeSearchModal();
+        console.log(foodAdd)
+    }
+
+    const calcFoodAttributes = () => {
+        addMinLabel('input-pro-food-unid', 'unid');
+        var multiplier = document.getElementById('input-pro-food-unid').value;
+        var food = foodAdd;
+        console.log(multiplier)
     }
 
     const addMinLabel = (id, field) => {
@@ -90,6 +132,7 @@ export default function SectionFoodPlan() {
                         <label htmlFor='input-pro-plan-fat'>Gordura</label>
                     </div>
                 </div>
+                <table>
                 <tbody className='food-plan'>
                     <tr className={`line food-1 title-food`}>
                         <td className="item food__desc">Refeição I - Café da manhã</td>
@@ -139,7 +182,7 @@ export default function SectionFoodPlan() {
                         <td className="item food__exclude"><a><img src={exclude} alt="Excluir" /></a></td>
                     </tr>
                     <tr className="line food-7 footer-food">
-                        <td className='item food__desc'><a onClick={ () => setIsModalVisible(true) }>Adicionar alimento <img src={plus} alt="Adicionar" /></a></td>
+                        <td className='item food__desc'><a onClick={ () => setIsModalSearchVisible(true) }>Adicionar alimento <img src={plus} alt="Adicionar" /></a></td>
                     </tr>
 
 
@@ -155,7 +198,7 @@ export default function SectionFoodPlan() {
                         <td className="item food__exclude"><a><img src={exclude} alt="Excluir" /></a></td>
                     </tr>
                     <tr className="line food-10 footer-food">
-                        <td className='item food__desc'><a onClick={ () => setIsModalVisible(true) }>Adicionar alimento <img src={plus} alt="Adicionar" /></a></td>
+                        <td className='item food__desc'><a onClick={ () => setIsModalSearchVisible(true) }>Adicionar alimento <img src={plus} alt="Adicionar" /></a></td>
                     </tr>
 
 
@@ -171,7 +214,7 @@ export default function SectionFoodPlan() {
                         <td className="item food__exclude"><a><img src={exclude} alt="Excluir" /></a></td>
                     </tr> */}
                     <tr className="line food-13 footer-food">
-                        <td className='item food__desc'><a onClick={ () => setIsModalVisible(true) }>Adicionar alimento <img src={plus} alt="Adicionar" /></a></td>
+                        <td className='item food__desc'><a onClick={ () => setIsModalSearchVisible(true) }>Adicionar alimento <img src={plus} alt="Adicionar" /></a></td>
                     </tr>
 
 
@@ -187,7 +230,7 @@ export default function SectionFoodPlan() {
                         <td className="item food__exclude"><a><img src={exclude} alt="Excluir" /></a></td>
                     </tr> */}
                     <tr className="line food-13 footer-food">
-                        <td className='item food__desc'><a onClick={ () => setIsModalVisible(true) }>Adicionar alimento <img src={plus} alt="Adicionar" /></a></td>
+                        <td className='item food__desc'><a onClick={ () => setIsModalSearchVisible(true) }>Adicionar alimento <img src={plus} alt="Adicionar" /></a></td>
                     </tr>
 
 
@@ -203,7 +246,7 @@ export default function SectionFoodPlan() {
                         <td className="item food__exclude"><a><img src={exclude} alt="Excluir" /></a></td>
                     </tr> */}
                     <tr className="line food-13 footer-food">
-                        <td className='item food__desc'><a onClick={ () => setIsModalVisible(true) }>Adicionar alimento <img src={plus} alt="Adicionar" /></a></td>
+                        <td className='item food__desc'><a onClick={ () => setIsModalSearchVisible(true) }>Adicionar alimento <img src={plus} alt="Adicionar" /></a></td>
                     </tr>
 
 
@@ -219,90 +262,85 @@ export default function SectionFoodPlan() {
                         <td className="item food__exclude"><a><img src={exclude} alt="Excluir" /></a></td>
                     </tr> */}
                     <tr className="line food-13 footer-food">
-                        <td className='item food__desc'><a onClick={ () => setIsModalVisible(true) }>Adicionar alimento <img src={plus} alt="Adicionar" /></a></td>
+                        <td className='item food__desc'><a onClick={ () => setIsModalSearchVisible(true) }>Adicionar alimento <img src={plus} alt="Adicionar" /></a></td>
                     </tr>
                 </tbody>
-                {isModalVisible && <ModalGeneric onClose={ () => setIsModalVisible(false) }>
-                    <div className="modal-search-food">
+                </table>
+                {isModalSearchVisible && <ModalGeneric onClose={ closeSearchModal }>
+                    <div className="modal-search-food" onKeyDown={ preventEnter }>
                         <div className="modal-search-food__header">
                             <h3>Buscar alimento por nome:</h3>
                             <div>
                                 <div className='input-label-default'>
-                                    <input className='input-text-default' id='input-search-food' fieldname='Alimento' {...register("food")} onBlur={() => addMinLabel('input-search-food', 'food')} maxLength='255' />
-                                    <label htmlFor='input-search-food'>Alimento...</label>
+                                    <input className='input-text-default' id='input-search-food' fieldname='Alimento' maxLength='255' placeholder='Alimento...'/>
                                 </div>
-                                <button type='button' className="btn-search">Buscar</button>
+                                <button type='button' className="btn-search" id='btn-search' onClick={ searchFood }>Buscar</button>
                             </div>
                         </div>
                         <hr />
                         <div className="modal-search-food__body">
                             <div className='filter-foods'>
                                 <ul className='filter-foods__list'>
-                                    <li className='filter-foods__line pair'>
-                                        <a>
-                                            <h4>Frango Grelhado</h4>
-                                            <p>Frango, 100g, 159 calorias</p>
-                                        </a>
-                                    </li>
-                                    <li className='filter-foods__line'>
-                                        <a>
-                                            <h4>Frango Grelhado</h4>
-                                            <p>Frango, 100g, 159 calorias</p>
-                                        </a>
-                                    </li>
-                                    <li className='filter-foods__line pair'>
-                                        <a>
-                                            <h4>Frango Grelhado</h4>
-                                            <p>Frango, 100g, 159 calorias</p>
-                                        </a>
-                                    </li>
-                                    <li className='filter-foods__line'>
-                                        <a>
-                                            <h4>Frango Grelhado</h4>
-                                            <p>Frango, 100g, 159 calorias</p>
-                                        </a>
-                                    </li>
-                                    <li className='filter-foods__line pair'>
-                                        <a>
-                                            <h4>Frango Grelhado</h4>
-                                            <p>Frango, 100g, 159 calorias</p>
-                                        </a>
-                                    </li>
-                                    <li className='filter-foods__line'>
-                                        <a>
-                                            <h4>Frango Grelhado</h4>
-                                            <p>Frango, 100g, 159 calorias</p>
-                                        </a>
-                                    </li>
-                                    <li className='filter-foods__line pair'>
-                                        <a>
-                                            <h4>Frango Grelhado</h4>
-                                            <p>Frango, 100g, 159 calorias</p>
-                                        </a>
-                                    </li>
-                                    <li className='filter-foods__line'>
-                                        <a>
-                                            <h4>Frango Grelhado</h4>
-                                            <p>Frango, 100g, 159 calorias</p>
-                                        </a>
-                                    </li>
-                                    <li className='filter-foods__line pair'>
-                                        <a>
-                                            <h4>Frango Grelhado</h4>
-                                            <p>Frango, 100g, 159 calorias</p>
-                                        </a>
-                                    </li>
-                                    <li className='filter-foods__line'>
-                                        <a>
-                                            <h4>Frango Grelhado</h4>
-                                            <p>Frango, 100g, 159 calorias</p>
-                                        </a>
-                                    </li>
+                                    {filterFoods.map((food, idx) => {
+                                        return idx % 2 === 0 ?
+                                        <li className='filter-foods__line pair' key={ 'food-' + food.id } onClick={ () => openConfirmModal(food) }>
+                                            <a>
+                                                <h4>{food.description}</h4>
+                                                <p>{food.base_qty + food.base_unit}</p>
+                                            </a>
+                                        </li>
+                                        :
+                                        <li className='filter-foods__line' key={ 'food-' + food.id } onClick={ () => openConfirmModal(food) }>
+                                            <a>
+                                                <h4>{food.description}</h4>
+                                                <p>{food.base_qty + food.base_unit}</p>
+                                            </a>
+                                        </li>
+                                    })}
                                 </ul>
                             </div>
                         </div>
                     </div>
-                    </ModalGeneric>}
+                </ModalGeneric>}
+                {isModalConfirmVisible && <ModalGeneric onClose={ closeConfirmModal }>
+                    <div className="modal-confirm-food" onKeyDown={ preventEnter }>
+                        <div className="modal-confirm-food__header">
+                            <h3>{`Id: ${foodAdd.id} | ${foodAdd.description}`}</h3>
+                        </div>
+                        <hr />
+                        <div className="modal-confirm-food__body">
+                            <div className='data-food'>
+                                <div className='input-label-default'>
+                                    <input className='input-text-default' id='input-pro-food-qntbase' fieldname='Quantidade base' value={foodAdd.base_qty.toFixed(2) + ` (${foodAdd.base_unit} ${foodAdd.description})`} {...register("qntbase")} onBlur={() => addMinLabel('input-pro-food-qntbase', 'qntbase')} maxLength='7' readOnly />
+                                    <label htmlFor='input-pro-food-qntbase'>Quantidade base</label>
+                                </div>
+                                <div className='input-label-default'>
+                                    <input className='input-text-default' id='input-pro-food-carbo' fieldname='Carboidrato' value={(!isNaN(foodAdd.attributes.carbohydrate.qty) ? foodAdd.attributes.carbohydrate.qty.toFixed(2) : 0) + ` (${foodAdd.attributes.carbohydrate.unit} ${foodAdd.description})`} {...register("carbo")} onBlur={() => addMinLabel('input-pro-food-carbo', 'carbo')} maxLength='7' readOnly />
+                                    <label htmlFor='input-pro-food-carbo'>Carboidrato</label>
+                                </div>
+                                <div className='input-label-default'>
+                                    <input className='input-text-default' id='input-pro-food-prot' fieldname='Proteína' {...register("prot")} onBlur={() => addMinLabel('input-pro-food-prot', 'prot')} maxLength='7' readOnly />
+                                    <label htmlFor='input-pro-food-prot'>Proteína</label>
+                                </div>
+                                <div className='input-label-default'>
+                                    <input className='input-text-default' id='input-pro-food-obesity' fieldname='Gordura' value={(!isNaN(foodAdd.attributes.lipid.qty) ? foodAdd.attributes.lipid.qty.toFixed(2) : 0) + ` (${foodAdd.attributes.lipid.unit} ${foodAdd.description})`} {...register("obesity")} onBlur={() => addMinLabel('input-pro-food-obesity', 'obesity')} maxLength='7' readOnly />
+                                    <label htmlFor='input-pro-food-obesity'>Gordura</label>
+                                </div>
+                                <div className='input-label-default'>
+                                    <input className='input-text-default' id='input-pro-food-calorie' fieldname='Caloria' value={(!isNaN(foodAdd.attributes.energy.kcal) ? foodAdd.attributes.energy.kcal.toFixed(2) : 0) + ' (kcal ${foodAdd.description})'} {...register("calorie")} onBlur={() => addMinLabel('input-pro-food-calorie', 'calorie')} maxLength='7' readOnly />
+                                    <label htmlFor='input-pro-food-calorie'>Caloria</label>
+                                </div>
+                            </div>
+                            <div className='save-food'>
+                                <div className='input-label-default'>
+                                    <input className='input-text-default' id='input-pro-food-unid' type='number' max='100' step='0.1' min='0.1' fieldname='Unidades' onBlur={ calcFoodAttributes } />
+                                    <label htmlFor='input-pro-food-unid'>Unidades</label>
+                                </div>
+                                <button type='button' className="btn-confirm-food" id='btn-confirm-food'>Adicionar</button>
+                            </div>
+                        </div>
+                    </div>
+                </ModalGeneric>}
             </div>
         </form>
     )

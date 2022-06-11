@@ -46,7 +46,15 @@
 
         &:read-only {
             border-width: 0;
+            padding-top: 10px;
             background-color: $color12;
+
+            &+label {
+                margin-top: 0;
+                font-size: 11px;
+                align-items: flex-start;
+                transition: font-size .2s;
+            }
         }
     }
 

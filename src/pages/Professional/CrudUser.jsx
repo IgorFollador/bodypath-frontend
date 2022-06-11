@@ -27,32 +27,32 @@ export default function CrudUser() {
     const spreadUserData = () => {
         fetch('http://localhost:10000/customer/users/' + id).then(response => response.json())
         .then(data => {
-                const address1 = data.address.split(', ');
-                const address2 = address1[1].split(' - ');                                                   //state         city        street       number
-                const values = [data.firstName, data.lastName, data.email, data.email, data.cpf, data.phone, address2[2], address2[1], address1[0], address2[0]]
-                const div = document.querySelector('#form-crud-user .div-crud').children;
-                const permission = data.profile_id;
-                var countDivs = 0;
-                setUserValues(values);
+            const address1 = data.address.split(', ');
+            const address2 = address1[1].split(' - ');                                                   //state         city        street       number
+            const values = [data.firstName, data.lastName, data.email, data.email, data.cpf, data.phone, address2[2], address2[1], address1[0], address2[0]]
+            const div = document.querySelector('#form-crud-user .div-crud').children;
+            const permission = data.profile_id;
+            var countDivs = 0;
+            setUserValues(values);
 
-                for (var i = 0; i < values.length; i++) {
-                    if (i%2 === 0) {
-                        div[countDivs].children[0].children[0].value = values[i];
-                        div[countDivs].children[0].children[0].classList.add('min-label');
-                    } else {
-                        div[countDivs].children[1].children[0].value = values[i];
-                        div[countDivs].children[1].children[0].classList.add('min-label');
-                        countDivs++;
-                    }
+            for (var i = 0; i < values.length; i++) {
+                if (i%2 === 0) {
+                    div[countDivs].children[0].children[0].value = values[i];
+                    div[countDivs].children[0].children[0].classList.add('min-label');
+                } else {
+                    div[countDivs].children[1].children[0].value = values[i];
+                    div[countDivs].children[1].children[0].classList.add('min-label');
+                    countDivs++;
                 }
-                if (permission === 1) {
-                    document.getElementById('radio-pro-stud-admin').checked = true;
-                } else if (permission === 2) {
-                    document.getElementById('radio-pro-stud-nutri').checked = true;
-                } else if (permission === 3) {
-                    document.getElementById('radio-pro-stud-personal').checked = true;
-                }
-            })
+            }
+            if (permission === 1) {
+                document.getElementById('radio-pro-stud-admin').checked = true;
+            } else if (permission === 2) {
+                document.getElementById('radio-pro-stud-nutri').checked = true;
+            } else if (permission === 3) {
+                document.getElementById('radio-pro-stud-personal').checked = true;
+            }
+        })
     }
 
     if (id) {
