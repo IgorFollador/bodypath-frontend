@@ -62,7 +62,7 @@
         align-items: center;
         justify-content: center;
         border: 2px $color1 solid;
-        background-color: transparent;
+        background-color: $color1;
         transition: background-color .2s;
 
         &:hover {
@@ -73,6 +73,22 @@
 
 //begin Crud Physical Evaluation
 .div-inputs-container {
+    .div-align-select {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        .div-select-data {
+            width: 66%;
+            padding: 20px;
+            max-width: 810px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border: 2px solid $color1;
+        }
+    }
+
     .div-inputs-firstrow {
         display: flex;
         justify-content: space-between;
@@ -142,15 +158,8 @@
                 }
             }
         }
-    }
-
-    .div-inputs-secondrow {
-        display: flex;
-        margin-top: 30px;
-        justify-content: space-between;
 
         .div-bodyfolds-data {
-            width: 100%;
             padding: 20px;
             border-radius: 10px;
             border: 2px solid $color1;
@@ -163,15 +172,15 @@
                 display: flex;
                 justify-content: space-between;
 
-                &>div {
-                    width: 24.3%;
+                .average-measurements {
+                    width: 100%;
                     display: flex;
                     align-items: center;
                     flex-direction: column;
 
                     .input-label-default {
-                        margin: 7px 0;
                         width: 100%;
+                        margin: 7px 0;
                         max-width: 350px;
                     }
                 }
@@ -233,6 +242,16 @@
         width: 100%;
         max-width: 380px;
         margin-left: 40px;
+    }
+}
+
+.div-select-students {
+    display: flex;
+    margin-top: 15px;
+    flex-direction: column;
+
+    .css-b62m3t-container {
+        width: 100%;
     }
 }
 
@@ -326,7 +345,7 @@
 
         .food__desc {
             text-align: center;
-            
+
             a {
                 color: $color8;
                 cursor: pointer;

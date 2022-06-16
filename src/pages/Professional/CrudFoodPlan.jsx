@@ -45,22 +45,21 @@ export default function SectionFoodPlan() {
             if (isModalSearchVisible) searchFood();
         }
     }
-
-    const closeSearchModal = () => {
-        document.getElementById('input-search-food').value = '';
-        setFilterFoods([]);
-        setIsModalSearchVisible(false);
-    }
-
+    
     const searchFood = () => {
         var value = document.getElementById('input-search-food').value;
-        console.log(value);
         if (value !== '') {
             fetch('https://api-tacobp.herokuapp.com/api/v1/foods?search=' + value).then(response => response.json())
             .then(data => {
                 setFilterFoods(data);
             })
         }
+    }
+
+    const closeSearchModal = () => {
+        document.getElementById('input-search-food').value = '';
+        setFilterFoods([]);
+        setIsModalSearchVisible(false);
     }
 
     const closeConfirmModal = () => {
@@ -71,18 +70,23 @@ export default function SectionFoodPlan() {
     const openConfirmModal = food => {
         setFoodAdd(food);
         setIsModalConfirmVisible(true);
-        console.log(food)
-        while (!isModalConfirmVisible);
-        document.getElementById('input-pro-food-prot').value = food.attributes.protein.qty;
         closeSearchModal();
-        console.log(foodAdd)
+    }
+
+    const backToSearchModal = () => {
+        closeConfirmModal();
+        setIsModalSearchVisible(true);
     }
 
     const calcFoodAttributes = () => {
         addMinLabel('input-pro-food-unid', 'unid');
-        var multiplier = document.getElementById('input-pro-food-unid').value;
-        var food = foodAdd;
-        console.log(multiplier)
+        var multiplier = parseFloat(document.getElementById('input-pro-food-unid').value);
+        const qntbase = !isNaN(foodAdd.base_qty) ? foodAdd.base_qty * multiplier : 0;
+        const carbohydrate = !isNaN(foodAdd.attributes.carbohydrate.qty) ? foodAdd.attributes.carbohydrate.qty * multiplier : 0;
+        const protein = !isNaN(foodAdd.attributes.protein.qty) ? foodAdd.attributes.protein.qty * multiplier : 0;
+        const lipid = !isNaN(foodAdd.attributes.lipid.qty) ? foodAdd.attributes.lipid.qty * multiplier : 0;
+        const energy = !isNaN(foodAdd.attributes.energy.kcal) ? foodAdd.attributes.energy.kcal * multiplier : 0;
+        //retornar o calculo para o post que vai registrar o alimento no back
     }
 
     const addMinLabel = (id, field) => {
@@ -311,23 +315,33 @@ export default function SectionFoodPlan() {
                         <div className="modal-confirm-food__body">
                             <div className='data-food'>
                                 <div className='input-label-default'>
-                                    <input className='input-text-default' id='input-pro-food-qntbase' fieldname='Quantidade base' value={foodAdd.base_qty.toFixed(2) + ` (${foodAdd.base_unit} ${foodAdd.description})`} {...register("qntbase")} onBlur={() => addMinLabel('input-pro-food-qntbase', 'qntbase')} maxLength='7' readOnly />
+                                    <div className='input-text-default' id='input-pro-food-qntbase' fieldname='Quantidade base' {...register("qntbase")} onBlur={() => addMinLabel('input-pro-food-qntbase', 'qntbase')} >
+                                        {foodAdd.base_qty.toFixed(2) + ` (${foodAdd.base_unit})`}
+                                    </div>
                                     <label htmlFor='input-pro-food-qntbase'>Quantidade base</label>
                                 </div>
                                 <div className='input-label-default'>
-                                    <input className='input-text-default' id='input-pro-food-carbo' fieldname='Carboidrato' value={(!isNaN(foodAdd.attributes.carbohydrate.qty) ? foodAdd.attributes.carbohydrate.qty.toFixed(2) : 0) + ` (${foodAdd.attributes.carbohydrate.unit} ${foodAdd.description})`} {...register("carbo")} onBlur={() => addMinLabel('input-pro-food-carbo', 'carbo')} maxLength='7' readOnly />
+                                    <div className='input-text-default' id='input-pro-food-carbo' fieldname='Carboidrato' {...register("carbo")} onBlur={() => addMinLabel('input-pro-food-carbo', 'carbo')} >
+                                        {(!isNaN(foodAdd.attributes.carbohydrate.qty) ? foodAdd.attributes.carbohydrate.qty.toFixed(2) : 0) + ` (${foodAdd.attributes.carbohydrate.unit})`}
+                                    </div>
                                     <label htmlFor='input-pro-food-carbo'>Carboidrato</label>
                                 </div>
                                 <div className='input-label-default'>
-                                    <input className='input-text-default' id='input-pro-food-prot' fieldname='Proteína' {...register("prot")} onBlur={() => addMinLabel('input-pro-food-prot', 'prot')} maxLength='7' readOnly />
+                                    <div className='input-text-default' id='input-pro-food-prot' fieldname='Proteína' {...register("qntbase")} {...register("prot")} onBlur={() => addMinLabel('input-pro-food-prot', 'prot')} >
+                                        {(!isNaN(foodAdd.attributes.protein.qty) ? foodAdd.attributes.protein.qty.toFixed(2) : 0) + ` (${foodAdd.attributes.protein.unit})`}
+                                    </div>
                                     <label htmlFor='input-pro-food-prot'>Proteína</label>
                                 </div>
                                 <div className='input-label-default'>
-                                    <input className='input-text-default' id='input-pro-food-obesity' fieldname='Gordura' value={(!isNaN(foodAdd.attributes.lipid.qty) ? foodAdd.attributes.lipid.qty.toFixed(2) : 0) + ` (${foodAdd.attributes.lipid.unit} ${foodAdd.description})`} {...register("obesity")} onBlur={() => addMinLabel('input-pro-food-obesity', 'obesity')} maxLength='7' readOnly />
+                                    <div className='input-text-default' id='input-pro-food-obesity' fieldname='Gordura' {...register("obesity")} onBlur={() => addMinLabel('input-pro-food-obesity', 'obesity')} >
+                                        {(!isNaN(foodAdd.attributes.lipid.qty) ? foodAdd.attributes.lipid.qty.toFixed(2) : 0) + ` (${foodAdd.attributes.lipid.unit})`}
+                                    </div>
                                     <label htmlFor='input-pro-food-obesity'>Gordura</label>
                                 </div>
                                 <div className='input-label-default'>
-                                    <input className='input-text-default' id='input-pro-food-calorie' fieldname='Caloria' value={(!isNaN(foodAdd.attributes.energy.kcal) ? foodAdd.attributes.energy.kcal.toFixed(2) : 0) + ' (kcal ${foodAdd.description})'} {...register("calorie")} onBlur={() => addMinLabel('input-pro-food-calorie', 'calorie')} maxLength='7' readOnly />
+                                    <div className='input-text-default' id='input-pro-food-calorie' fieldname='Caloria' {...register("calorie")} onBlur={() => addMinLabel('input-pro-food-calorie', 'calorie')} >
+                                        {(!isNaN(foodAdd.attributes.energy.kcal) ? foodAdd.attributes.energy.kcal.toFixed(2) : 0) + ' (kcal)'}
+                                    </div>
                                     <label htmlFor='input-pro-food-calorie'>Caloria</label>
                                 </div>
                             </div>
@@ -336,7 +350,10 @@ export default function SectionFoodPlan() {
                                     <input className='input-text-default' id='input-pro-food-unid' type='number' max='100' step='0.1' min='0.1' fieldname='Unidades' onBlur={ calcFoodAttributes } />
                                     <label htmlFor='input-pro-food-unid'>Unidades</label>
                                 </div>
-                                <button type='button' className="btn-confirm-food" id='btn-confirm-food'>Adicionar</button>
+                                <div className='save-food-buttons'>
+                                    <button type='button' className="btn-confirm-food" id='btn-confirm-food'>Adicionar</button>
+                                    <button type='button' className="btn-back-modal" id='btn-back-modal' onClick={ backToSearchModal }>Voltar à busca</button>
+                                </div>
                             </div>
                         </div>
                     </div>

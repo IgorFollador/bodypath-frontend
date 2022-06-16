@@ -29,7 +29,6 @@ export default function SectionFoodPlan() {
                 const arrRefresh = arrFoodPlans.filter(evaluation => {
                     return evaluation.id !== id;
                 });
-                console.log('arr:', arrRefresh)
                 setArrFoodPlans(arrRefresh);
             })
             .catch(error => {

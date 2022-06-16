@@ -4,22 +4,21 @@ import './InputText.scss';
 import { useForm } from 'react-hook-form';
 
 const Modal = ({ id = 'modal', onClose = () => {} }) => {
-    const { register, handleSubmit } = useForm();//default
+    const { register, handleSubmit } = useForm();
     const [emailIsValid, setEmailIsValid] = useState(true);
     const [passwordIsValid, setPasswordIsValid] = useState(true);
 
     const addMinLabel = (id, field) => {
-        console.log(id)
         var input = document.getElementById(id);
         input.value.trim() !== '' ?
         input.classList.add('min-label') :
         input.classList.remove('min-label');
         validateFileds(id, field);
-    }//default
+    }
 
     const handleOutsideClick = event => {
         if (event.target.id === id) onClose();
-    }//default
+    }
 
     const validateFileds = (id, field) => {
         const fieldValue = document.getElementById(id).value;
