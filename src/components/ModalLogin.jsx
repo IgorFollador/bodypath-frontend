@@ -4,7 +4,6 @@ import './InputText.scss';
 import { useForm } from 'react-hook-form';
 import { useContext } from 'react';
 import { AuthContext } from '../context/authContext';
-import  { Navigate } from "react-router-dom";
 
 const Modal = ({ id = 'modal', onClose = () => {} }) => {
     const { register, handleSubmit } = useForm();//default
@@ -22,6 +21,7 @@ const Modal = ({ id = 'modal', onClose = () => {} }) => {
         console.log(data);
 
         await signIn(data);
+
     }
 
     const addMinLabel = (id, field) => {
