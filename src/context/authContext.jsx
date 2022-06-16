@@ -32,12 +32,16 @@ export const AuthProvider = ({ children }) => {
         if(response.data.error) {
             alert(response.data.error);
         } else {
-            console.log(response.data.token);
+            console.log(response.data);
+
             setUser(response.data.user);
             api.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
-            
             localStorage.setItem("@Auth:token", response.data.token);
-            localStorage.setItem("@Auth:user", response.data.user);
+            localStorage.setItem("@Auth:username", response.data.username);
+            localStorage.setItem("@Auth:userId", response.data.userId);
+            console.log("logging");
+
+            window.location.href = "/professional/feed"
         }
     };
 

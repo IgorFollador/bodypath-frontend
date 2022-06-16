@@ -27,15 +27,16 @@ const  HelloUser = props => {
 function Logout() {
   console.log("Goodbye")
   localStorage.removeItem("@Auth:token");
-  localStorage.removeItem("@Auth:user");
+  localStorage.removeItem("@Auth:username");
+  localStorage.removeItem("@Auth:userId");
 }
 
 function EnterOrHello(props) {
-  return window.location.pathname === '/' ? <ButtonEnter /> : <HelloUser userName={props.user.firstName} />;
+  return window.location.pathname === '/' ? <ButtonEnter /> : <HelloUser userName={props.user.username} />;
 }
 
 const Header = () => {
-  var user = {firstName: localStorage.getItem("@Auth:user")}; //Estático até LOGIN
+  var user = {username: localStorage.getItem("@Auth:username")}; //Estático até LOGIN
   return (
     <header>
       <div className="app-header">
