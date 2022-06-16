@@ -35,7 +35,11 @@ function SearchPerson() {
     const [arrPeople, setArrPeople] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:10000/customer/users/names')
+        fetch('http://localhost:10000/customer/users/names', {
+            headers: {
+                'Authorization': localStorage.getItem("@Auth:token")
+            }, 
+        })
             .then(response => response.json())
             .then(data => {setArrPeople(data)})
     }, [])

@@ -2,39 +2,34 @@ import React, { useState } from 'react';
 import './Modals.scss'
 import './InputText.scss';
 import { useForm } from 'react-hook-form';
+import { useContext } from 'react';
+import { AuthContext } from '../context/authContext';
 
 const Modal = ({ id = 'modal', onClose = () => {} }) => {
-    const { register, handleSubmit } = useForm();
-    const [emailIsValid, setEmailIsValid] = useState(true);
-    const [passwordIsValid, setPasswordIsValid] = useState(true);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const { signIn } = useContext(AuthContext);
+
+
+    const handleSignIn = async (e) => {
+        e.preventDefault();
+        const data = {
+            email,
+            password,
+        };
+
+        await signIn(data);
+    }
 
     const addMinLabel = (id, field) => {
         var input = document.getElementById(id);
         input.value.trim() !== '' ?
         input.classList.add('min-label') :
         input.classList.remove('min-label');
-        validateFileds(id, field);
     }
 
     const handleOutsideClick = event => {
         if (event.target.id === id) onClose();
-    }
-
-    const validateFileds = (id, field) => {
-        const fieldValue = document.getElementById(id).value;
-        if (field === 'email') {
-            var regex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi;
-            setEmailIsValid(regex.test(fieldValue));
-        } else if (field === 'password') {
-            var isValid = fieldValue.length >= 6;
-            setPasswordIsValid(isValid);
-        }
-    }
-
-    const submitForm = data => {
-        data.keep_logged = data.keep_logged === 'true';
-        window.location.href = 'professional/feed';
-        onClose();
     }
 
     return <div id={id} className="modal" onClick={handleOutsideClick}>
@@ -47,19 +42,31 @@ const Modal = ({ id = 'modal', onClose = () => {} }) => {
                     </div>
                     <hr />
                     <div className="modal-login__body">
-                        <form id='form-login' onSubmit={handleSubmit(submitForm)}>
+                        <form id='form-login' onSubmit={handleSignIn}>
                             <div className='input-label-default'>
-                                <input className='input-text-default' id='input-login-email' fieldname='E-mail' {...register("email")} onBlur={() => addMinLabel('input-login-email', 'email')} maxLength='255' />
+                                <input  className='input-text-default' 
+                                        id='input-login-email' 
+                                        fieldname='E-mail' 
+                                        onBlur={() => addMinLabel('input-login-email', 'email')} 
+                                        maxLength='255' 
+                                        type="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)} />
                                 <label htmlFor='input-login-email'>E-mail</label>
-                                { !emailIsValid && <span>Campo inválido!</span> }
                             </div>
                             <div className='input-label-default'>
-                                <input className='input-text-default' id='input-login-password' type='password' fieldname='Senha' {...register("password")} onBlur={() => addMinLabel('input-login-password', 'password')} maxLength='255' />
+                                <input  className='input-text-default' 
+                                        id='input-login-password' 
+                                        type='password' 
+                                        fieldname='Senha' 
+                                        onBlur={() => addMinLabel('input-login-password', 'password')} 
+                                        maxLength='255' 
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)} />
                                 <label htmlFor='input-login-password'>Senha</label>
-                                { !passwordIsValid && <span>Campo inválido!</span> }
                             </div>
                             <div className="div-keep-logged">
-                                <input type="checkbox" id="keep-logged" {...register("keep_logged")} value={true}/>
+                                <input type="checkbox" id="keep-logged" value={true}/>
                                 <label htmlFor="keep-logged">Mantenha-me conectado</label>
                             </div>
                             <div className="div-btn-login">
