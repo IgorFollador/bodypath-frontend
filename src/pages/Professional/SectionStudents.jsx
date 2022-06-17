@@ -11,7 +11,11 @@ export default function SectionStudents() {
         const [arrPeople, setArrPeople] = useState([]);
         
         useEffect(() => {
-            fetch('http://localhost:10000/customer/users/names')
+            fetch('http://localhost:10000/customer/users/names', {
+                headers: {
+                    'Authorization': localStorage.getItem("@Auth:token")
+                },
+            })
                 .then(response => response.json())
                 .then(data => {arr(data)})
         }, [])
@@ -23,6 +27,9 @@ export default function SectionStudents() {
         const deleteUser = id => {
             fetch('http://localhost:10000/customer/users/' + id, {
                 method: 'DELETE',
+                headers: {
+                    'Authorization': localStorage.getItem("@Auth:token")
+                },
             })
             .then(response => response.json())
             .then(data => {

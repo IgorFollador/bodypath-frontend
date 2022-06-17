@@ -11,9 +11,13 @@ export default function SectionFoodPlan() {
         const [arrFoodPlans, setArrFoodPlans] = useState([]);
 
         useEffect(() => {
-            fetch('http://localhost:10000/customer/users/names')
-                .then(response => response.json())
-                .then(data => {arr(data)})
+            fetch('http://localhost:10000/customer/users/names', {
+                headers: {
+                    'Authorization': localStorage.getItem("@Auth:token")
+                }, 
+            })
+            .then(response => response.json())
+            .then(data => {arr(data)})
         }, [])
 
         const arr = props => {
@@ -23,13 +27,15 @@ export default function SectionFoodPlan() {
         const deleteEval = id => {
             fetch('http://localhost:10000/phyisical_evaluation/evaluations/' + id, {
                 method: 'DELETE',
+                headers: {
+                    'Authorization': localStorage.getItem("@Auth:token")
+                }, 
             })
             .then(response => response.json())
             .then(data => {
                 const arrRefresh = arrFoodPlans.filter(evaluation => {
                     return evaluation.id !== id;
                 });
-                console.log('arr:', arrRefresh)
                 setArrFoodPlans(arrRefresh);
             })
             .catch(error => {

@@ -6,7 +6,6 @@ import { useContext } from 'react';
 import { AuthContext } from '../context/authContext';
 
 const Modal = ({ id = 'modal', onClose = () => {} }) => {
-    const { register } = useForm();//default
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const { signIn } = useContext(AuthContext);
@@ -18,22 +17,20 @@ const Modal = ({ id = 'modal', onClose = () => {} }) => {
             email,
             password,
         };
-        console.log(data);
 
         await signIn(data);
     }
 
     const addMinLabel = (id, field) => {
-        console.log(id)
         var input = document.getElementById(id);
         input.value.trim() !== '' ?
         input.classList.add('min-label') :
         input.classList.remove('min-label');
-    }//default
+    }
 
     const handleOutsideClick = event => {
         if (event.target.id === id) onClose();
-    }//default
+    }
 
     return <div id={id} className="modal" onClick={handleOutsideClick}>
         <div className="modal-container">
@@ -69,7 +66,7 @@ const Modal = ({ id = 'modal', onClose = () => {} }) => {
                                 <label htmlFor='input-login-password'>Senha</label>
                             </div>
                             <div className="div-keep-logged">
-                                <input type="checkbox" id="keep-logged" {...register("keep_logged")} value={true}/>
+                                <input type="checkbox" id="keep-logged" value={true}/>
                                 <label htmlFor="keep-logged">Mantenha-me conectado</label>
                             </div>
                             <div className="div-btn-login">

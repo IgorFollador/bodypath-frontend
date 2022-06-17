@@ -40,8 +40,8 @@ function SearchPerson() {
                 'Authorization': localStorage.getItem("@Auth:token")
             }, 
         })
-            .then(response => response.json())
-            .then(data => {setArrPeople(data)})
+        .then(response => response.json())
+        .then(data => {setArrPeople(data)})
     }, [])
 
     const redirectUpdate = (id) => {

@@ -121,7 +121,6 @@
                 margin: 20px 0 10px 0;
                 background-color: $color1;
             }
-
         }
 
         .btn-register {
@@ -293,13 +292,30 @@
             flex-direction: column;
             justify-content: space-between;
 
-            .btn-confirm-food {
-                padding: 10px;
-                margin: 5px 0;
-                color: $color5;
-                font-size: 16px;
-                border-radius: 5px;
-                background-color: $color1;
+            &-buttons {
+                display: flex;
+                flex-direction: column;
+
+                .btn-confirm-food {
+                    padding: 10px;
+                    margin: 5px 0;
+                    color: $color5;
+                    font-size: 16px;
+                    border-radius: 10px;
+                    background-color: $color1;
+                }
+    
+                .btn-back-modal {
+                    width: auto;
+                    height: 40px;
+                    color: $color1;
+                    font-size: 16px;
+                    max-width: 350px;
+                    border-radius: 10px;
+                    margin-bottom: 20px;
+                    background-color: $color5;
+                    border: 2px $color1 solid;
+                }
             }
         }
 
