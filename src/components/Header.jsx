@@ -36,7 +36,7 @@ function EnterOrHello(props) {
 }
 
 const Header = () => {
-  var user = {username: localStorage.getItem("@Auth:username")}; //Estático até LOGIN
+  var user = {username: localStorage.getItem("@Auth:username")};
   return (
     <header>
       <div className="app-header">

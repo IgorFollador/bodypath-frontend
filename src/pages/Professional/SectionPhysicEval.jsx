@@ -13,13 +13,21 @@ export default function SectionPhysicEval() {
         const [arrPeople, setArrPeople] = useState([]);
         
         useEffect(() => {
-            fetch('http://localhost:10000/phyisical_evaluation/evaluations')
+            fetch('http://localhost:10000/phyisical_evaluation/evaluations', {
+                headers: {
+                    'Authorization': localStorage.getItem("@Auth:token")
+                }, 
+            })
             .then(response => response.json())
             .then(data => {arr(data)})
         }, [])
         
         useEffect(() => {
-            fetch('http://localhost:10000/customer/users')
+            fetch('http://localhost:10000/customer/users', {
+                headers: {
+                    'Authorization': localStorage.getItem("@Auth:token")
+                }, 
+            })
             .then(response => response.json())
             .then(data => {
                 var arrBuffer = [];
@@ -38,6 +46,9 @@ export default function SectionPhysicEval() {
         const deleteEval = id => {
             fetch('http://localhost:10000/phyisical_evaluation/evaluations/' + id, {
                 method: 'DELETE',
+                headers: {
+                    'Authorization': localStorage.getItem("@Auth:token")
+                }, 
             })
             .then(response => response.json())
             .then(data => {

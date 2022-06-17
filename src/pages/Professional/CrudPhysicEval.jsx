@@ -12,15 +12,19 @@ export default function CrudPhysicEval() {
     const [ studentNewEval, setStudentNewEval ] = useState(null);
 
     useEffect(() => {
-        fetch('http://localhost:10000/customer/users/names')
-            .then(response => response.json())
-            .then(data => {
-                var arr = [];
-                data.forEach(student => {
-                    arr.push({value: student.id, label:  student.firstName + ' ' + student.lastName})
-                })
-                setArrStudents(arr);
+        fetch('http://localhost:10000/customer/users/names', {
+            headers: {
+                'Authorization': localStorage.getItem("@Auth:token")
+            }, 
+        })
+        .then(response => response.json())
+        .then(data => {
+            var arr = [];
+            data.forEach(student => {
+                arr.push({value: student.id, label:  student.firstName + ' ' + student.lastName})
             })
+            setArrStudents(arr);
+        })
     }, [])
 
     const handleInputHip = e => {

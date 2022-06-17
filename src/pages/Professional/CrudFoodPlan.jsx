@@ -19,16 +19,20 @@ export default function SectionFoodPlan() {
     const [filterFoods, setFilterFoods] = useState([]);
     //Essa chamada deverá ser alterada para o endpoint dos planos alimentares
     useEffect(() => {
-        fetch('http://localhost:10000/customer/users/names')
-            .then(response => response.json())
-            .then(data => {
-                var arrPlan = [];
-                data.forEach(plan => {
-                    arrPlan.push({value: plan.id, label:  plan.firstName + ' ' + plan.lastName})
-                })
-                setArrPlans(data);
-                setArrStudents(arrPlan);
+        fetch('http://localhost:10000/customer/users/names', {
+            headers: {
+                'Authorization': localStorage.getItem("@Auth:token")
+            }, 
+        })
+        .then(response => response.json())
+        .then(data => {
+            var arrPlan = [];
+            data.forEach(plan => {
+                arrPlan.push({value: plan.id, label:  plan.firstName + ' ' + plan.lastName})
             })
+            setArrPlans(data);
+            setArrStudents(arrPlan);
+        })
     }, [])
     
     useEffect(() => {
@@ -49,7 +53,12 @@ export default function SectionFoodPlan() {
     const searchFood = () => {
         var value = document.getElementById('input-search-food').value;
         if (value !== '') {
-            fetch('https://api-tacobp.herokuapp.com/api/v1/foods?search=' + value).then(response => response.json())
+            fetch('https://api-tacobp.herokuapp.com/api/v1/foods?search=' + value, {
+                headers: {
+                    'Authorization': localStorage.getItem("@Auth:token")
+                }, 
+            })
+            .then(response => response.json())
             .then(data => {
                 setFilterFoods(data);
             })

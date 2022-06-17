@@ -25,7 +25,12 @@ export default function CrudUser() {
           'input-pro-stud-phone', 'input-pro-stud-state', 'input-pro-stud-city', 'input-pro-stud-street', 'input-pro-stud-number'];
 
     const spreadUserData = () => {
-        fetch('http://localhost:10000/customer/users/' + id).then(response => response.json())
+        fetch('http://localhost:10000/customer/users/' + id, {
+            headers: {
+                'Authorization': localStorage.getItem("@Auth:token")
+            }, 
+        })
+        .then(response => response.json())
         .then(data => {
             const address1 = data.address.split(', ');
             const address2 = address1[1].split(' - ');                                                   //state         city        street       number
@@ -100,7 +105,8 @@ export default function CrudUser() {
             const response = await fetch('http://localhost:10000/customer/users/' + id, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': localStorage.getItem("@Auth:token")
                 },
                 body: JSON.stringify(data)
             });
@@ -116,7 +122,8 @@ export default function CrudUser() {
             const response = await fetch('http://localhost:10000/customer/users', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': localStorage.getItem("@Auth:token")
                 },
                 body: JSON.stringify(data)
             });
