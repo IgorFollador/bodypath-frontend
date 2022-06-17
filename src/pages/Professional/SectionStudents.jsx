@@ -3,12 +3,13 @@ import { Link } from 'react-router-dom';
 import plus from '../../images/plus.png';
 import edit from '../../images/edit.png';
 import exclude from '../../images/exclude.png';
+import icon_alert_circle from '../../images/icon-alert-circle.png';
 import React, { useEffect, useState } from 'react';
 
 export default function SectionStudents() {
     function ListStudents() {
         //Array estático até ter a consulta ao back-end
-        const [arrPeople, setArrPeople] = useState([]);
+        const [arrPeople, setArrPeople] = useState([{}]);
         
         useEffect(() => {
             fetch('http://localhost:10000/customer/users/names', {
@@ -50,7 +51,9 @@ export default function SectionStudents() {
         return (
             <>
                 <div className='list-things'>
-                    {arrPeople.map(person => {
+                    {
+                    arrPeople.length > 0 ?
+                    arrPeople.map(person => {
                         return (
                             <div className='list-line' key={'student-' + person.id}>
                                 <div className='item-list' onDoubleClick={()=>{redirectUpdate(person.id)}}>
@@ -62,7 +65,16 @@ export default function SectionStudents() {
                                 <button className='btn btn-exclude' onClick={()=>{deleteUser(person.id)}}><img src={exclude} alt='Excluir' /></button>
                             </div>
                         )
-                    })}
+                    })
+                    :
+                    <div className='list-empty'>
+                        <img src={icon_alert_circle} alt="Alerta" />
+                        <h1>Você ainda não possui nenhum aluno cadastrado...</h1>
+                        <span>Adicione novos alunos clicando no botão abaixo!</span>
+                        <div className='item-list'>
+                        </div>
+                    </div>
+                    }
                 </div>
             </>
         )

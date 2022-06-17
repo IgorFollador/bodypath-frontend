@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import plus from '../../images/plus.png';
 import edit from '../../images/edit.png';
 import exclude from '../../images/exclude.png';
+import icon_alert_circle from '../../images/icon-alert-circle.png';
 import React, { useEffect, useState } from 'react';
 import Moment from 'moment';
 
@@ -10,7 +11,7 @@ export default function SectionPhysicEval() {
     function ListEvaluations() {
         //Array estático até ter a consulta ao back-end
         const [arrEval, setArrEval] = useState([]);
-        const [arrPeople, setArrPeople] = useState([]);
+        const [arrPeople, setArrPeople] = useState([{}]);
         
         useEffect(() => {
             fetch('http://localhost:10000/phyisical_evaluation/evaluations', {
@@ -69,7 +70,9 @@ export default function SectionPhysicEval() {
         return (
             <>
                 <div className='list-things'>
-                    {arrEval.map(evaluation => {
+                    {
+                    arrPeople.length > 0 ?
+                    arrEval.map(evaluation => {
                         return (
                             <div className='list-line' key={'eval-' + evaluation._id}>
                                 <div className='item-list' onDoubleClick={()=>{redirectUpdate(evaluation._id)}}>
@@ -94,7 +97,16 @@ export default function SectionPhysicEval() {
                                 <button className='btn btn-exclude' onClick={() => {deleteEval(evaluation._id)}}><img src={exclude} alt='Excluir' /></button>
                             </div>
                         )
-                    })}
+                    })
+                    :
+                    <div className='list-empty'>
+                        <img src={icon_alert_circle} alt="Alerta" />
+                        <h1>Você ainda não possui nenhuma avaliação cadastrada...</h1>
+                        <span>Adicione novas avaliações clicando no botão abaixo!</span>
+                        <div className='item-list'>
+                        </div>
+                    </div>
+                    }
                 </div>
             </>
         )

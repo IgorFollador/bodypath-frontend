@@ -8,6 +8,7 @@ import '../../components/InputRadio.scss';
 export default function CrudUser() {
     const { register, handleSubmit } = useForm();
     const { id } = useParams();
+    const [isAdmin, setIsAdmin] = useState(false);
     const [firstNameIsValid, setFirstNameIsValid] = useState(true);
     const [lastNameIsValid, setLastNameIsValid] = useState(true);
     const [emailIsValid, setEmailIsValid] = useState(true);
@@ -23,6 +24,22 @@ export default function CrudUser() {
     const [userValues, setUserValues] = useState([]);
     const idsFields = ['input-pro-stud-firstname', 'input-pro-stud-lastname', 'input-pro-stud-email', 'input-pro-stud-confirmemail', 'input-pro-stud-cpf', 
           'input-pro-stud-phone', 'input-pro-stud-state', 'input-pro-stud-city', 'input-pro-stud-street', 'input-pro-stud-number'];
+
+    const getIsAdmin = async () => {
+        var userId = localStorage.getItem("@Auth:userId");
+        try {
+            const response = await fetch('http://localhost:10000/customer/users/' + userId, {
+                headers: {
+                    'Authorization': localStorage.getItem("@Auth:token")
+                },
+            });
+            const content = await response.json();
+            setIsAdmin(content.profile_id === 1);
+        } catch(error) {
+            alert(error);
+        } 
+    }
+    getIsAdmin();
 
     const spreadUserData = () => {
         fetch('http://localhost:10000/customer/users/' + id, {
@@ -169,7 +186,7 @@ export default function CrudUser() {
         } else if (field === 'city') {
             setCityIsValid(validateNames(fieldValue));
         } else if (field === 'street') {
-            setStreetIsValid(validateNames(fieldValue));
+            setStreetIsValid(!fieldIsEmpty(fieldValue));
         } else if (field === 'number') {
             setNumberIsValid(!fieldIsEmpty(fieldValue));
         } else if (field === 'password') {
@@ -303,6 +320,7 @@ export default function CrudUser() {
                         </div>
                     </div>
                 }
+                {isAdmin &&
                 <div className='input-radio-container'>
                     <span>Permissões:</span>
                     <div className='inputs-radio'>
@@ -320,6 +338,7 @@ export default function CrudUser() {
                         </div>
                     </div>
                 </div>
+                }
             </div>
             <div className='div-btn-save'>
                 <button type='submit' className='btn btn-save'>Salvar</button>

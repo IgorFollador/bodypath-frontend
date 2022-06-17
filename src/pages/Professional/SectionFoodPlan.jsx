@@ -3,12 +3,13 @@ import { Link } from 'react-router-dom';
 import plus from '../../images/plus.png';
 import edit from '../../images/edit.png';
 import exclude from '../../images/exclude.png';
+import icon_alert_circle from '../../images/icon-alert-circle.png';
 import React, { useEffect, useState } from 'react';
 
 export default function SectionFoodPlan() {
     function ListFoodPlans() {
         //Array estático até ter a consulta ao back-end
-        const [arrFoodPlans, setArrFoodPlans] = useState([]);
+        const [arrFoodPlans, setArrFoodPlans] = useState([{}]);
 
         useEffect(() => {
             fetch('http://localhost:10000/customer/users/names', {
@@ -50,7 +51,8 @@ export default function SectionFoodPlan() {
         return (
             <>
                 <div className='list-things'>
-                    {arrFoodPlans.map(plan => {
+                    {arrFoodPlans.length > 0 ?
+                    arrFoodPlans.map(plan => {
                         return (
                             <div className='list-line' key={'plan-' + plan.id}>
                                 <div className='item-list' onDoubleClick={()=>{redirectUpdate(plan.id)}}>
@@ -63,7 +65,16 @@ export default function SectionFoodPlan() {
                                 <button className='btn btn-exclude' onClick={()=>{deleteEval(plan.id)}}><img src={exclude} alt='Excluir' /></button>
                             </div>
                         )
-                    })}
+                    })
+                    :
+                    <div className='list-empty'>
+                        <img src={icon_alert_circle} alt="Alerta" />
+                        <h1>Você ainda não possui nenhum plano cadastrado...</h1>
+                        <span>Adicione novos planos clicando no botão abaixo!</span>
+                        <div className='item-list'>
+                        </div>
+                    </div>
+                    }
                 </div>
             </>
         )
