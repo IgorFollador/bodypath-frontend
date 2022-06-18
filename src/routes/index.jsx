@@ -5,7 +5,7 @@ import SectionPhysicEval from '../pages/Professional/SectionPhysicEval';
 import SectionStudents from '../pages/Professional/SectionStudents';
 import SectionFeed from '../pages/Professional/SectionFeed';
 import SectionFoodPlan from '../pages/Professional/SectionFoodPlan';
-import SectionCadastre from '../pages/Professional/SectionCadastre';
+import CrudMyCadastre from '../pages/Professional/CrudMyCadastre';
 import CrudStudents from '../pages/Professional/CrudUser';
 import CrudPhysicEval from '../pages/Professional/CrudPhysicEval';
 import CrudPlans from '../pages/Professional/CrudFoodPlan';
@@ -28,7 +28,7 @@ export const AppRouter = () => {
                 <Route path='plans' element= { <SectionFoodPlan /> }/>
                     <Route path='plans/create' element= { <CrudPlans /> }/>
                     <Route path='plans/update/:id' element= { <CrudPlans /> }/>
-                <Route path='cadastre' element= { <SectionCadastre /> }/>
+                <Route path='cadastre' element= { <CrudMyCadastre /> }/>
             </Route>
             </Routes>
         </Router>

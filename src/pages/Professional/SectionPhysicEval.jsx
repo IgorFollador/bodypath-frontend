@@ -13,6 +13,12 @@ export default function SectionPhysicEval() {
         const [arrEval, setArrEval] = useState([]);
         const [arrPeople, setArrPeople] = useState([{}]);
         
+        for(var i=0;i<50;i++){
+            setTimeout(()=>{
+                console.log(arrPeople)
+            },500)
+        }
+
         useEffect(() => {
             fetch('http://localhost:10000/phyisical_evaluation/evaluations', {
                 headers: {
@@ -71,7 +77,7 @@ export default function SectionPhysicEval() {
             <>
                 <div className='list-things'>
                     {
-                    arrPeople.length > 0 ?
+                    arrEval.length > 0 ?
                     arrEval.map(evaluation => {
                         return (
                             <div className='list-line' key={'eval-' + evaluation._id}>
