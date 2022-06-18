@@ -25,9 +25,7 @@ const  HelloUser = props => {
 }
 
 function Logout() {
-  localStorage.removeItem("@Auth:token");
-  localStorage.removeItem("@Auth:username");
-  localStorage.removeItem("@Auth:userId");
+  localStorage.clear();
 }
 
 function EnterOrHello(props) {
