@@ -358,4 +358,36 @@
             }
         }
     }
+
+    .results-food {
+
+        .food__desc {
+            text-align: end;
+            font-weight: bold;
+            background-color: $color2;
+        }
+
+        .food__exclude {
+            background-color: $color2;
+        }
+    }
+
+    .results-label {
+
+        .item {
+            height: 46.3px;
+            font-weight: bold;
+            background-color: $color1;
+        }
+
+        .food__desc {
+            text-align: end;
+            font-weight: bold;
+            background-color: $color2;
+        }
+
+        .food__exclude {
+            background-color: $color2;
+        }
+    }
 }

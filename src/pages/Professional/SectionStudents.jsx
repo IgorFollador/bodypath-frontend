@@ -9,16 +9,18 @@ import React, { useEffect, useState } from 'react';
 export default function SectionStudents() {
     function ListStudents() {
         //Array estático até ter a consulta ao back-end
-        const [arrPeople, setArrPeople] = useState([{}]);
+        const [arrPeople, setArrPeople] = useState([]);
+        const professionalId = localStorage.getItem("@Auth:professional_id");
+        const userId = localStorage.getItem("@Auth:userId");
         
         useEffect(() => {
-            fetch('http://localhost:10000/customer/users/names', {
+            fetch('http://localhost:10000/customer/clients/professional/' + professionalId, {
                 headers: {
                     'Authorization': localStorage.getItem("@Auth:token")
                 },
             })
                 .then(response => response.json())
-                .then(data => {arr(data)})
+                .then(data => {console.log(data);arr(data)})
         }, [])
 
         const arr = props => {
@@ -51,18 +53,23 @@ export default function SectionStudents() {
         return (
             <>
                 <div className='list-things'>
+                    <div className='title-list'>
+                        <div>
+                            <span>Nome</span>
+                        </div>
+                    </div>
                     {
                     arrPeople.length > 0 ?
                     arrPeople.map(person => {
                         return (
-                            <div className='list-line' key={'student-' + person.id}>
-                                <div className='item-list' onDoubleClick={()=>{redirectUpdate(person.id)}}>
-                                    <span>{person.firstName + ' ' + person.lastName}</span>
+                            <div className='list-line' key={'student-' + person.User.id}>
+                                <div className='item-list' onDoubleClick={()=>{redirectUpdate(person.User.id)}}>
+                                    <span>{person.User.firstName + ' ' + person.User.lastName}</span>
                                 </div>
-                                <Link to={'/professional/students/update/' + person.id}>
+                                <Link to={'/professional/students/update/' + person.User.id}>
                                     <button className='btn btn-edit'><img src={edit} alt='Editar' /></button>
                                 </Link>
-                                <button className='btn btn-exclude' onClick={()=>{deleteUser(person.id)}}><img src={exclude} alt='Excluir' /></button>
+                                <button className='btn btn-exclude' onClick={()=>{deleteUser(person.User.id)}}><img src={exclude} alt='Excluir' /></button>
                             </div>
                         )
                     })

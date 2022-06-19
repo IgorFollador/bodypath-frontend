@@ -22,7 +22,7 @@ export default function SectionFoodPlan() {
         fetch('http://localhost:10000/customer/users/names', {
             headers: {
                 'Authorization': localStorage.getItem("@Auth:token")
-            }, 
+            },
         })
         .then(response => response.json())
         .then(data => {
@@ -88,8 +88,8 @@ export default function SectionFoodPlan() {
     }
 
     const calcFoodAttributes = () => {
-        addMinLabel('input-pro-food-unid', 'unid');
-        var multiplier = parseFloat(document.getElementById('input-pro-food-unid').value);
+        addMinLabel('input-pro-food-unity', 'unity');
+        var multiplier = parseFloat(document.getElementById('input-pro-food-unity').value);
         const qntbase = !isNaN(foodAdd.base_qty) ? foodAdd.base_qty * multiplier : 0;
         const carbohydrate = !isNaN(foodAdd.attributes.carbohydrate.qty) ? foodAdd.attributes.carbohydrate.qty * multiplier : 0;
         const protein = !isNaN(foodAdd.attributes.protein.qty) ? foodAdd.attributes.protein.qty * multiplier : 0;
@@ -266,16 +266,58 @@ export default function SectionFoodPlan() {
                     <tr className={`line food-11 title-food`}>
                         <td className="item food__desc">Refeição VI - Janta</td>
                     </tr>
-                    {/* <tr className="line food-12">
+                    <tr className="line food-12">
                         <td className="item food__desc">Maça - 1 unidade</td>
                         <td className="item food__cal">213</td>
-                        <td className="item food__carbs">2</td>
-                        <td className="item food__fat">16</td>
-                        <td className="item food__protein">17</td>
+                        <td className="item food__carbs">121</td>
+                        <td className="item food__fat">250</td>
+                        <td className="item food__protein">130</td>
                         <td className="item food__exclude"><a><img src={exclude} alt="Excluir" /></a></td>
-                    </tr> */}
+                    </tr>
+                    <tr className="line food-12">
+                        <td className="item food__desc">Maça - 1 unidade</td>
+                        <td className="item food__cal">213</td>
+                        <td className="item food__carbs">200</td>
+                        <td className="item food__fat">250</td>
+                        <td className="item food__protein">100</td>
+                        <td className="item food__exclude"><a><img src={exclude} alt="Excluir" /></a></td>
+                    </tr>
                     <tr className="line food-13 footer-food">
                         <td className='item food__desc'><a onClick={ () => setIsModalSearchVisible(true) }>Adicionar alimento <img src={plus} alt="Adicionar" /></a></td>
+                    </tr>
+
+                    {/* Results */}
+                    <tr className="line food-14 results-food">
+                        <td className="item food__desc">Totais</td>
+                        <td className="item food__cal-total">426</td>
+                        <td className="item food__carbs-total">321</td>
+                        <td className="item food__fat-total">500</td>
+                        <td className="item food__protein-total">230</td>
+                        <td className="item food__exclude"></td>
+                    </tr>
+                    <tr className="line food-14 results-food">
+                        <td className="item food__desc">Meta diária</td>
+                        <td className="item food__cal-goal">450</td>
+                        <td className="item food__carbs-goal">320</td>
+                        <td className="item food__fat-goal">500</td>
+                        <td className="item food__protein-goal">250</td>
+                        <td className="item food__exclude"></td>
+                    </tr>
+                    <tr className="line food-14 results-food">
+                        <td className="item food__desc">Diferença</td>
+                        <td className="item food__cal-diff">24</td>
+                        <td className="item food__carbs-diff">-1</td>
+                        <td className="item food__fat-diff">0</td>
+                        <td className="item food__protein-diff">20</td>
+                        <td className="item food__exclude"></td>
+                    </tr>
+                    <tr className="line food-14 results-label">
+                        <td className="item food__desc"></td>
+                        <td className="item food__cal-goal">Calorias<br/>kcal</td>
+                        <td className="item food__carbs-goal">Carboidratos<br/>g</td>
+                        <td className="item food__fat-goal">Gorduras<br/>g</td>
+                        <td className="item food__protein-goal">Proteínas<br/>g</td>
+                        <td className="item food__exclude"></td>
                     </tr>
                 </tbody>
                 </table>
@@ -356,8 +398,8 @@ export default function SectionFoodPlan() {
                             </div>
                             <div className='save-food'>
                                 <div className='input-label-default'>
-                                    <input className='input-text-default' id='input-pro-food-unid' type='number' max='100' step='0.1' min='0.1' fieldname='Unidades' onBlur={ calcFoodAttributes } />
-                                    <label htmlFor='input-pro-food-unid'>Unidades</label>
+                                    <input className='input-text-default' id='input-pro-food-unity' type='number' max='100' step='0.1' min='0.1' fieldname='Unidades' onBlur={ calcFoodAttributes } />
+                                    <label htmlFor='input-pro-food-unity'>Unidades</label>
                                 </div>
                                 <div className='save-food-buttons'>
                                     <button type='button' className="btn-confirm-food" id='btn-confirm-food'>Adicionar</button>

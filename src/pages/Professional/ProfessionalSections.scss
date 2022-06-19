@@ -72,6 +72,17 @@
             }
         }
 
+        .title-list {
+            margin: 15px;
+            display: flex;
+            font-size: 20px;
+            width: calc(100% - 150px);
+
+            &>div {
+                width: 50%;
+            }
+        }
+
         &::-webkit-scrollbar {
             width: 5px;
         }

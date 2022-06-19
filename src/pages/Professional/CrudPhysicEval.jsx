@@ -2,30 +2,92 @@ import './Cruds.scss';
 import '../../components/InputText.scss';
 import '../../components/InputRadio.scss';
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import Select from "react-select";
 
 export default function CrudPhysicEval() {
     const { register, handleSubmit } = useForm();
+    const { id } = useParams();
     const [ arrStudents, setArrStudents ] = useState([]);
     const [ activeInputHip, setActiveInputHip ] = useState(false);
     const [ studentNewEval, setStudentNewEval ] = useState(null);
+    const professionalId = localStorage.getItem("@Auth:professional_id");
+    const idsFields = ['input-pro-eval-age', 'input-pro-eval-height', 'input-pro-eval-weight', 'input-pro-eval-neck', 'input-pro-eval-waist', 
+    'input-pro-eval-thorax', 'input-pro-eval-abdomen', 'input-pro-eval-rightarm', 'input-pro-eval-leftarm', 'input-pro-eval-rightupperthigh',
+    'input-pro-eval-leftupperthigh', 'input-pro-eval-hip', 'input-pro-eval-subscapularis', 'input-pro-eval-triceps', 'input-pro-eval-breastplate',
+    'input-pro-eval-axillary', 'input-pro-eval-suprailiac', 'input-pro-eval-abdomnal', 'input-pro-eval-femoral'];
 
     useEffect(() => {
-        fetch('http://localhost:10000/customer/users/names', {
+        fetch('http://localhost:10000/customer/clients/professional/' + professionalId, {
+            headers: {
+                'Authorization': localStorage.getItem("@Auth:token")
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            var arr = [];
+            console.log("students", data)
+            data.forEach(student => {
+                arr.push({value: student.id, label:  student.User.firstName + ' ' + student.User.lastName})
+            })
+            setArrStudents(arr);
+        })
+    }, []);
+
+    const spreadUserData = () => {
+        fetch('http://localhost:10000/phyisical_evaluation/evaluations/' + id, {
             headers: {
                 'Authorization': localStorage.getItem("@Auth:token")
             }, 
         })
         .then(response => response.json())
         .then(data => {
-            var arr = [];
-            data.forEach(student => {
-                arr.push({value: student.id, label:  student.firstName + ' ' + student.lastName})
-            })
-            setArrStudents(arr);
+            console.log(data)
+            // const address1 = data.address.split(', ');
+            // const address2 = address1[1].split(' - ');                                                   //state         city        street       number
+            // const values = [data.firstName, data.lastName, data.email, data.email, data.cpf, data.phone, address2[2], address2[1], address1[0], address2[0]]
+            // const div = document.querySelector('#form-crud-user .div-crud').children;
+            // const permission = data.profile_id;
+            // var countDivs = 0;
+            // setUserValues(values);
+
+            // for (var i = 0; i < values.length; i++) {
+            //     if (i%2 === 0) {
+            //         div[countDivs].children[0].children[0].value = values[i];
+            //         div[countDivs].children[0].children[0].classList.add('min-label');
+            //     } else {
+            //         div[countDivs].children[1].children[0].value = values[i];
+            //         div[countDivs].children[1].children[0].classList.add('min-label');
+            //         countDivs++;
+            //     }
+            // }
+
+            if (data.sex === 'F') {
+                document.getElementById('radio-pro-eval-feminine').checked = true;
+                setActiveInputHip(true);
+            } else if (data.sex === 'M') {
+                document.getElementById('radio-pro-eval-masculine').checked = true;
+            }
+
+            if (data.biotype === "ECTOMORFO") {
+                document.getElementById('radio-pro-eval-ectomorph').checked = true;
+            } else if (data.biotype === "MESOMORFO") {
+                document.getElementById('radio-pro-eval-mesomorph').checked = true;
+            } else if (data.biotype === "ENDOMORFO") {
+                document.getElementById('radio-pro-eval-endomorph').checked = true;
+            }
+        }
+        )
+    }
+
+    if (id) {
+        var reload = true;
+        idsFields.forEach(field => {
+            if (document.getElementById(field) !== null) reload = false;
         })
-    }, [])
+        reload && spreadUserData(id);
+    }
 
     const handleInputHip = e => {
         var val = e.target.value;
@@ -35,7 +97,17 @@ export default function CrudPhysicEval() {
 
     const submitForm = data => {
         data.sex = activeInputHip ? 'F' : 'M';
-        data.user_id = studentNewEval;
+        data.client_id = studentNewEval;
+        data.professional_id = professionalId;
+        console.log(data)
+        fetch('http://localhost:10000/phyisical_evaluation/evaluations/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("@Auth:token")
+            },
+            body: JSON.stringify(data)
+        })
     }
 
     const addMinLabel = (id, field) => {

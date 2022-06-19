@@ -12,13 +12,13 @@ export default function SectionFoodPlan() {
         const [arrFoodPlans, setArrFoodPlans] = useState([{}]);
 
         useEffect(() => {
-            fetch('http://localhost:10000/customer/users/names', {
+            fetch('http://localhost:10000/customer/users/', {
                 headers: {
                     'Authorization': localStorage.getItem("@Auth:token")
                 }, 
             })
             .then(response => response.json())
-            .then(data => {arr(data)})
+            .then(data => {console.log(data);arr(data)})
         }, [])
 
         const arr = props => {
@@ -51,6 +51,14 @@ export default function SectionFoodPlan() {
         return (
             <>
                 <div className='list-things'>
+                    <div className='title-list'>
+                        <div>
+                            <span>Nome</span>
+                        </div>
+                        <div>
+                            <span>Data de criação</span>
+                        </div>
+                    </div>
                     {arrFoodPlans.length > 0 ?
                     arrFoodPlans.map(plan => {
                         return (
