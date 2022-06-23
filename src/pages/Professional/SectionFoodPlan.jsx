@@ -18,7 +18,7 @@ export default function SectionFoodPlan() {
                 }, 
             })
             .then(response => response.json())
-            .then(data => {console.log(data);arr(data)})
+            .then(data => {arr(data)})
         }, [])
 
         const arr = props => {
@@ -51,17 +51,20 @@ export default function SectionFoodPlan() {
         return (
             <>
                 <div className='list-things'>
-                    <div className='title-list'>
-                        <div>
-                            <span>Nome</span>
+                    {arrFoodPlans.length > 0 &&
+                        <div className='title-list'>
+                            <div>
+                                <span>Nome</span>
+                            </div>
+                            <div>
+                                <span>Data de criação</span>
+                            </div>
                         </div>
-                        <div>
-                            <span>Data de criação</span>
-                        </div>
-                    </div>
+                    }
                     {arrFoodPlans.length > 0 ?
                     arrFoodPlans.map(plan => {
                         return (
+                            <>
                             <div className='list-line' key={'plan-' + plan.id}>
                                 <div className='item-list' onDoubleClick={()=>{redirectUpdate(plan.id)}}>
                                     <div className='div-plan-list'><span>{plan.firstName + ' ' + plan.lastName}</span></div>
@@ -72,6 +75,7 @@ export default function SectionFoodPlan() {
                                 </Link>
                                 <button className='btn btn-exclude' onClick={()=>{deleteEval(plan.id)}}><img src={exclude} alt='Excluir' /></button>
                             </div>
+                            </>
                         )
                     })
                     :

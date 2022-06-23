@@ -14,8 +14,8 @@
     background-color: rgba($color: $color2, $alpha: 0.8);
 
     &-container {
-        width: 615px;
-        height: 450px;
+        max-width: 615px;
+        max-height: 450px;
         border-radius: 15px;
         background-color: $color5;
 
@@ -62,6 +62,7 @@
 //modal-login begin
 .modal-login {
     display: flex;
+    min-width: 500px;
     align-items: center;
     flex-direction: column;
 
@@ -184,7 +185,7 @@
     
     &__body {
         width: 100%;
-        height: 100%;
+        height: 450px;
         margin: 10px 0;
         overflow: auto;
         max-height: 275px;
@@ -261,11 +262,11 @@
     }
     
     &__body {
-        width: 100%;
         height: 100%;
         display: flex;
         margin: 10px 0;
         overflow: auto;
+        min-width: 400px;
         margin-top: 30px;
         max-height: 275px;
         justify-content: space-around;
@@ -333,6 +334,71 @@
 
             &:hover {
                 background-color: $color8;
+            }
+        }
+    }
+}
+
+//modal-confirm-cruds
+.modal-confirm-crud {
+    display: flex;
+    padding: 10px 35px;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+
+    &__texts {
+        display: flex;
+        text-align: center;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+
+        img {
+            width: 60px;
+            margin-bottom: 30px;
+        }
+
+        span {
+            margin-top: 15px;
+        }
+    }
+
+    &__buttons {
+        display: flex;
+        margin-top: 35px;
+
+        .btn {
+            width: auto;
+            height: 40px;
+            display: flex;
+            font-size: 20px;
+            margin-top: 20px;
+            margin: 0px 7px;
+            user-select: none;
+            padding: 15px 20px;
+            border-radius: 5px;
+            align-items: center;
+            justify-content: center;
+            border: 2px $color1 solid;
+            -webkit-user-select: none;
+
+            &:hover {
+                box-shadow: 1px 1px 7px $color2;
+            }
+        }
+
+        .btn-confirm {
+            color: $color5;
+            background-color: $color1;
+        }
+
+        .btn-cancel {
+            color: $color1;
+            background-color: $color5;
+
+            &:hover {
+                background-color: $color5 !important;
             }
         }
     }

@@ -11,7 +11,18 @@ import Professional from './Professional';
 export default function SectionPhysicEval() {
     function ListEvaluations() {
         //Array estático até ter a consulta ao back-end
-        const [arrEval, setArrEval] = useState([{}]);
+        const initialObj = {
+            'id': 0,
+            'user_id': 0,
+            'createdAt': '2000-01-01T17:00:00.000Z',
+            'Client': {
+                'User': {
+                    'firstName': '',
+                    'lastName': ''
+                }
+            }
+        }
+        const [arrEval, setArrEval] = useState([initialObj]);
         const professionalId = localStorage.getItem("@Auth:professional_id");
 
         useEffect(() => {
@@ -22,7 +33,6 @@ export default function SectionPhysicEval() {
             })
             .then(response => response.json())
             .then(data => {
-                console.log("eval",data);
                 var arrBuffer = [];
                 data.forEach(user => {
                     var userData = {'id': user.Client.id, 'fullName': user.Client.firstName + ' ' + user.Client.lastName};
@@ -62,32 +72,33 @@ export default function SectionPhysicEval() {
         return (
             <>
                 <div className='list-things'>
-                    <div className='title-list'>
-                        <div>
-                            <span>Nome</span>
+                    {arrEval.length > 0 &&
+                        <div className='title-list'>
+                            <div>
+                                <span>Nome</span>
+                            </div>
+                            <div>
+                                <span>Data de criação</span>
+                            </div>
                         </div>
-                        <div>
-                            <span>Data de criação</span>
-                        </div>
-                    </div>
-                    {
-                    arrEval.length > 0 && arrEval[0].id ?
+                    }
+                    {arrEval.length > 0 ?
                     arrEval.map(evaluation => {
                         return (
+                            <>
                             <div className='list-line' key={'eval-' + evaluation.id}>
                                 <div className='item-list' onDoubleClick={()=>{redirectUpdate(evaluation.id)}}>
-                                    <div className='eval-list'>
-                                    { <span>{evaluation.Client.User.firstName + ' ' + evaluation.Client.User.lastName}</span> }
-                                    </div>
-                                    <div>
-                                        <span>{ Moment(evaluation.createdAt.slice(0, -14).replace(/-/gi, '')).format('DD/MM/YYYY')}</span>
-                                    </div>
+                                    <div className='eval-list'><span>{evaluation.Client.User.firstName + ' ' + evaluation.Client.User.lastName}</span></div>
+                                    <div><span>{arrEval.length > 0 &&
+                                        Moment(evaluation.createdAt.replace(/-/gi, '').slice(0, -14)).format('DD/MM/YYYY')
+                                    }</span></div>
                                 </div>
                                 <Link to={'/professional/evaluations/update/' + evaluation.id}>
                                     <button className='btn btn-edit'><img src={edit} alt='Editar' /></button>
                                 </Link>
-                                <button className='btn btn-exclude' onClick={() => {deleteEval(evaluation.id)}}><img src={exclude} alt='Excluir' /></button>
+                                <button className='btn btn-exclude' onClick={()=>{deleteEval(evaluation.id)}}><img src={exclude} alt='Excluir' /></button>
                             </div>
+                            </>
                         )
                     })
                     :

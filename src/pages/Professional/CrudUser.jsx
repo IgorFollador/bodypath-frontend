@@ -4,11 +4,15 @@ import { useForm } from 'react-hook-form';
 import React, { useState } from 'react';
 import '../../components/InputText.scss';
 import '../../components/InputRadio.scss';
+import ModalGeneric from '../../components/ModalGeneric';
+import icon_alert_circle from '../../images/icon-alert-circle.png';
+import icon_check_circle from '../../images/icon-check-circle.png';
 
 export default function CrudUser() {
     const { register, handleSubmit } = useForm();
     const { id } = useParams();
-    const [isAdmin, setIsAdmin] = useState(false);
+    const professionalId = localStorage.getItem("@Auth:professional_id");
+    // const [isAdmin, setIsAdmin] = useState(false);
     const [firstNameIsValid, setFirstNameIsValid] = useState(true);
     const [lastNameIsValid, setLastNameIsValid] = useState(true);
     const [emailIsValid, setEmailIsValid] = useState(true);
@@ -22,36 +26,39 @@ export default function CrudUser() {
     const [passwordIsValid, setPasswordIsValid] = useState(true);
     const [confirmPasswordIsValid, setConfirmPasswordIsValid] = useState(true);
     const [userValues, setUserValues] = useState([]);
+    const [isModalConfirmVisible, setIsModalConfirmVisible] = useState(false);
+    const [isModalOkSuccessVisible, setIsModalOkSuccessVisible] = useState(false);
+    const [isModalOkFailedVisible, setIsModalOkFailedVisible] = useState(false);
     const idsFields = ['input-pro-stud-firstname', 'input-pro-stud-lastname', 'input-pro-stud-email', 'input-pro-stud-confirmemail', 'input-pro-stud-cpf', 
           'input-pro-stud-phone', 'input-pro-stud-state', 'input-pro-stud-city', 'input-pro-stud-street', 'input-pro-stud-number'];
 
-    const getIsAdmin = async () => {
-        var userId = localStorage.getItem("@Auth:userId");
-        try {
-            const response = await fetch('http://localhost:10000/customer/users/' + userId, {
-                headers: {
-                    'Authorization': localStorage.getItem("@Auth:token")
-                },
-            });
-            const content = await response.json();
-            setIsAdmin(content.profile_id === 1);
-        } catch(error) {
-            alert(error);
-        } 
-    }
-    getIsAdmin();
+    // const getIsAdmin = async () => {
+    //     var userId = localStorage.getItem("@Auth:userId");
+    //     try {
+    //         const response = await fetch('http://localhost:10000/customer/users/' + userId, {
+    //             headers: {
+    //                 'Authorization': localStorage.getItem("@Auth:token")
+    //             },
+    //         });
+    //         const content = await response.json();
+    //         setIsAdmin(content.profile_id === 1);
+    //     } catch(error) {
+    //         alert(error);
+    //     } 
+    // }
+    // getIsAdmin();
 
     const spreadUserData = () => {
-        fetch('http://localhost:10000/customer/users/' + id, {
+        fetch('http://localhost:10000/customer/clients/' + id, {
             headers: {
                 'Authorization': localStorage.getItem("@Auth:token")
             }, 
         })
         .then(response => response.json())
         .then(data => {
-            const address1 = data.address.split(', ');
+            const address1 = data.User.address.split(', ');
             const address2 = address1[1].split(' - ');                                                   //state         city        street       number
-            const values = [data.firstName, data.lastName, data.email, data.email, data.cpf, data.phone, address2[2], address2[1], address1[0], address2[0]]
+            const values = [data.User.firstName, data.User.lastName, data.User.email, data.User.email, data.User.cpf, data.User.phone, address2[2], address2[1], address1[0], address2[0]]
             const div = document.querySelector('#form-crud-user .div-crud').children;
             const permission = data.profile_id;
             var countDivs = 0;
@@ -67,6 +74,7 @@ export default function CrudUser() {
                     countDivs++;
                 }
             }
+
             if (permission === 1) {
                 document.getElementById('radio-pro-stud-admin').checked = true;
             } else if (permission === 2) {
@@ -97,7 +105,7 @@ export default function CrudUser() {
         data.cpf !== '' ? obj.cpf = data.cpf : obj = obj;
         data.phone !== '' ? obj.phone = data.phone : obj = obj;
         data.password !== '' ? obj.password = data.password : obj = obj;
-        data.profile_id !== null ? obj.profile_id = data.profile_id : obj.profile_id = 4;
+        obj.professional_id = professionalId;
         if (data.street !== '' || data.number !== '' || data.city !== '' || data.state !== '') {
             obj.address = street + ', ' + number + ' - ' + city + ' - ' + state;
         }
@@ -115,11 +123,12 @@ export default function CrudUser() {
         const obj = returnObj(data);
         verifyDataForm();
         id ? asyncPutCall(obj) : asyncPostCall(obj);
+        closeSaveModal();
     }
 
     const asyncPutCall = async data => {
         try {
-            const response = await fetch('http://localhost:10000/customer/users/' + id, {
+            const response = await fetch('http://localhost:10000/customer/clients/' + id, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -128,15 +137,19 @@ export default function CrudUser() {
                 body: JSON.stringify(data)
             });
             const content = await response.json();
-            alert("Usuário alterado com sucesso!");
+            if (response.ok) {
+                setIsModalOkSuccessVisible(true);
+            } else {
+                setIsModalOkFailedVisible(true);
+            }
         } catch(error) {
-            alert(error);
+            console.error(error);
         } 
     }
 
     const asyncPostCall = async data => {
         try {
-            const response = await fetch('http://localhost:10000/customer/users', {
+            const response = await fetch('http://localhost:10000/customer/clients', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -145,10 +158,14 @@ export default function CrudUser() {
                 body: JSON.stringify(data)
             });
             const content = await response.json();
-            alert("Usuário cadastrado com sucesso!");
+            if (response.ok) {
+                setIsModalOkSuccessVisible(true);
+            } else {
+                setIsModalOkFailedVisible(true);
+            }
         } catch(error) {
-            alert(error);
-        } 
+            console.error(error);
+        }
     }
  
     const addMinLabel = (id, field) => {
@@ -243,6 +260,14 @@ export default function CrudUser() {
         return isEmpty;
     }
 
+    const openSaveModal = () => {
+        setIsModalConfirmVisible(true);
+    }
+
+    const closeSaveModal = () => {
+        setIsModalConfirmVisible(false);
+    }
+
     return (
         <form id='form-crud-user' onSubmit={handleSubmit(submitForm)}>
             <div className='div-crud'>
@@ -320,7 +345,7 @@ export default function CrudUser() {
                         </div>
                     </div>
                 }
-                {isAdmin &&
+                {/* {isAdmin &&
                 <div className='input-radio-container'>
                     <span>Permissões:</span>
                     <div className='inputs-radio'>
@@ -338,10 +363,56 @@ export default function CrudUser() {
                         </div>
                     </div>
                 </div>
-                }
+                } */}
+                {isModalConfirmVisible && id && <ModalGeneric onClose={ closeSaveModal }>
+                    <div className='modal-confirm-crud'>
+                        <div className='modal-confirm-crud__texts'>
+                            <h1>Você confirma a edição do aluno</h1>
+                            <h1>{userValues[0] + ' ' + userValues[1] + '?'}</h1>
+                        </div>
+                        <div className='modal-confirm-crud__buttons'>
+                            <button type='submit' id='btn-saveEditUser' className='btn btn-confirm'>Confirmar</button>
+                            <button className='btn btn-cancel' onClick={ closeSaveModal }>Cancelar</button>
+                        </div>
+                    </div>
+                </ModalGeneric>}
+                {isModalConfirmVisible && !id && <ModalGeneric onClose={ closeSaveModal }>
+                    <div className='modal-confirm-crud'>
+                        <div className='modal-confirm-crud__texts'>
+                            <h1>Você confirma a criação do aluno?</h1>
+                        </div>
+                        <div className='modal-confirm-crud__buttons'>
+                            <button type='submit' id='btn-saveEditUser' className='btn btn-confirm'>Confirmar</button>
+                            <button className='btn btn-cancel' onClick={ closeSaveModal }>Cancelar</button>
+                        </div>
+                    </div>
+                </ModalGeneric>}
+                {isModalOkSuccessVisible  && <ModalGeneric onClose={ ()=>{setIsModalOkSuccessVisible(false)} }>
+                    <div className='modal-confirm-crud'>
+                        <div className='modal-confirm-crud__texts'>
+                            <img src={icon_check_circle} alt="Confirmação de exclusão" />
+                            <h1>Aluno salvo com sucesso!</h1>
+                        </div>
+                        <div className='modal-confirm-crud__buttons'>
+                            <button className='btn btn-confirm' onClick={ ()=>{setIsModalOkSuccessVisible(false);window.location.href = '/professional/students'} }>Ok</button>
+                        </div>
+                    </div>
+                </ModalGeneric>}
+                {isModalOkFailedVisible  && <ModalGeneric onClose={ ()=>{setIsModalOkFailedVisible(false)} }>
+                    <div className='modal-confirm-crud'>
+                        <div className='modal-confirm-crud__texts'>
+                            <img src={icon_alert_circle} alt="Confirmação de exclusão" />
+                            <h1>O aluno não foi salvo!</h1>
+                            <span>Verifique os dados e tente novamente!</span>
+                        </div>
+                        <div className='modal-confirm-crud__buttons'>
+                            <button className='btn btn-confirm' onClick={ ()=>{setIsModalOkFailedVisible(false);} }>Ok</button>
+                        </div>
+                    </div>
+                </ModalGeneric>}
             </div>
             <div className='div-btn-save'>
-                <button type='submit' className='btn btn-save'>Salvar</button>
+                <button type='button' onClick={ openSaveModal } className='btn btn-save'>Salvar</button>
             </div>
         </form>
     )

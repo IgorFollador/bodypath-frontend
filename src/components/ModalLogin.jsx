@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './Modals.scss'
 import './InputText.scss';
-import { useForm } from 'react-hook-form';
 import { useContext } from 'react';
 import { AuthContext } from '../context/authContext';
 

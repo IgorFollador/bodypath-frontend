@@ -80,7 +80,6 @@ export default function CrudMyCadastre() {
     const submitForm = data => {
         const obj = returnObj(data);
         verifyDataForm();
-        console.log(obj)
         asyncPutCall(obj);
     }
 

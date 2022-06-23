@@ -12,10 +12,11 @@ export default function CrudPhysicEval() {
     const [ arrStudents, setArrStudents ] = useState([]);
     const [ activeInputHip, setActiveInputHip ] = useState(false);
     const [ studentNewEval, setStudentNewEval ] = useState(null);
+    const [ nameUserEditing, setNameUserEditing ] = useState('');
     const professionalId = localStorage.getItem("@Auth:professional_id");
     const idsFields = ['input-pro-eval-age', 'input-pro-eval-height', 'input-pro-eval-weight', 'input-pro-eval-neck', 'input-pro-eval-waist', 
     'input-pro-eval-thorax', 'input-pro-eval-abdomen', 'input-pro-eval-rightarm', 'input-pro-eval-leftarm', 'input-pro-eval-rightupperthigh',
-    'input-pro-eval-leftupperthigh', 'input-pro-eval-hip', 'input-pro-eval-subscapularis', 'input-pro-eval-triceps', 'input-pro-eval-breastplate',
+    'input-pro-eval-leftupperthigh', 'input-pro-eval-subscapularis', 'input-pro-eval-triceps', 'input-pro-eval-breastplate',
     'input-pro-eval-axillary', 'input-pro-eval-suprailiac', 'input-pro-eval-abdomnal', 'input-pro-eval-femoral'];
 
     useEffect(() => {
@@ -27,7 +28,6 @@ export default function CrudPhysicEval() {
         .then(response => response.json())
         .then(data => {
             var arr = [];
-            console.log("students", data)
             data.forEach(student => {
                 arr.push({value: student.id, label:  student.User.firstName + ' ' + student.User.lastName})
             })
@@ -43,31 +43,48 @@ export default function CrudPhysicEval() {
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data)
-            // const address1 = data.address.split(', ');
-            // const address2 = address1[1].split(' - ');                                                   //state         city        street       number
-            // const values = [data.firstName, data.lastName, data.email, data.email, data.cpf, data.phone, address2[2], address2[1], address1[0], address2[0]]
-            // const div = document.querySelector('#form-crud-user .div-crud').children;
-            // const permission = data.profile_id;
-            // var countDivs = 0;
-            // setUserValues(values);
+            setNameUserEditing(data.Client.User.firstName + ' ' + data.Client.User.lastName);
+            const fundamentalDataValues = [data.age, data.height, data.weight];
+            const measurementsValues = [data.neck, data.waist, data.chest, data.abdomen, data.right_arm, data.left_arm, data.right_forearm, data.left_forearm, data.right_upperThigh, data.left_upperThigh, data.right_middleThigh, data.left_middleThigh, data.hip];
+            const bodyFoldsValues = [data.subscapularis, data.triceps, data.breastplate, data.middle_axillary, data.supra_iliac, data.abdominal, data.mid_femoral];
+            const bodyResultsValues = [data.body_density, data.body_mass, data.body_fat, data.fat_percentage, data.bmr];
+            const divsFundData = document.querySelector('.div-inputs-firstrow .div-fundamental-data .inputs-text').children;
+            const divsMesurements = document.querySelector('.div-measurements-data .input-centralize').children;
+            const divsBodyFolds = document.querySelector('.div-bodyfolds-data .divs-measurements .average-measurements').children;
+            const divsBodyResults = document.querySelector('.div-results').children;
 
-            // for (var i = 0; i < values.length; i++) {
-            //     if (i%2 === 0) {
-            //         div[countDivs].children[0].children[0].value = values[i];
-            //         div[countDivs].children[0].children[0].classList.add('min-label');
-            //     } else {
-            //         div[countDivs].children[1].children[0].value = values[i];
-            //         div[countDivs].children[1].children[0].classList.add('min-label');
-            //         countDivs++;
-            //     }
-            // }
+            for (let i = 0; i < divsFundData.length; i++) {
+                divsFundData[i].children[0].value = fundamentalDataValues[i].toString();
+                divsFundData[i].children[0].classList.add('min-label');
+            }
 
             if (data.sex === 'F') {
                 document.getElementById('radio-pro-eval-feminine').checked = true;
                 setActiveInputHip(true);
             } else if (data.sex === 'M') {
                 document.getElementById('radio-pro-eval-masculine').checked = true;
+            }
+
+            let diff = 0;
+            for (let i = 0; i < divsMesurements.length; i++) {
+                divsMesurements[i].children[0].children[0].value = measurementsValues[i+diff] !== null ? measurementsValues[i+diff].toString() : 'Null'; diff++;
+                divsMesurements[i].children[1].children[0].value = measurementsValues[i+diff] !== null ? measurementsValues[i+diff].toString() : 'Null';
+                divsMesurements[i].children[0].children[0].classList.add('min-label')
+                divsMesurements[i].children[1].children[0].classList.add('min-label')
+            }
+
+            for (let i = 0; i < divsBodyFolds.length; i++) {
+                divsBodyFolds[i].children[0].value = bodyFoldsValues[i].toString();
+                divsBodyFolds[i].children[0].classList.add('min-label');
+            }
+
+            for (let i = 0; i < 3; i++) {
+                divsBodyResults[0].children[i].children[0].value = bodyResultsValues[i].toString();
+                divsBodyResults[0].children[i].children[0].classList.add('min-label');
+            }
+            for (let i = 0; i < 2; i++) {
+                divsBodyResults[1].children[i].children[0].value = bodyResultsValues[i+3].toString();
+                divsBodyResults[1].children[i].children[0].classList.add('min-label');
             }
 
             if (data.biotype === "ECTOMORFO") {
@@ -77,14 +94,13 @@ export default function CrudPhysicEval() {
             } else if (data.biotype === "ENDOMORFO") {
                 document.getElementById('radio-pro-eval-endomorph').checked = true;
             }
-        }
-        )
+        })
     }
 
     if (id) {
         var reload = true;
         idsFields.forEach(field => {
-            if (document.getElementById(field) !== null) reload = false;
+            reload = (document.getElementById(field) !== null) && reload;
         })
         reload && spreadUserData(id);
     }
@@ -95,11 +111,53 @@ export default function CrudPhysicEval() {
         else setActiveInputHip(false);
     }
 
-    const submitForm = data => {
-        data.sex = activeInputHip ? 'F' : 'M';
-        data.client_id = studentNewEval;
-        data.professional_id = professionalId;
+    const returnEditObj = data => {
         console.log(data)
+        let obj = {};
+        for (var key in data) {
+            console.log(data[key])
+            if (data[key] !== '' && data[key] !== null) {
+                obj[key] = data[key];
+            }
+        }
+        console.log(obj)
+        return obj;
+    }
+
+    const returnCreatetObj = data => {
+        let obj = data;
+        obj.sex = activeInputHip ? 'F' : 'M';
+        obj.client_id = 17;
+        obj.professional_id = professionalId;
+        return obj;
+    }
+
+    const submitForm = data => {
+        let obj;
+        // verifyDataForm();
+        if (id) {
+            obj = returnEditObj(data);
+            asyncPutCall(obj);
+        } else {
+            obj = returnCreatetObj(data);
+            console.log(obj)
+            asyncPostCall(obj);
+        }
+        // closeSaveModal();
+    }
+
+    const asyncPutCall = async data => {
+        fetch('http://localhost:10000/phyisical_evaluation/evaluations/' + id, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("@Auth:token")
+            },
+            body: JSON.stringify(data)
+        }).then(result => console.log(result.ok))
+    }
+
+    const asyncPostCall = data => {
         fetch('http://localhost:10000/phyisical_evaluation/evaluations/', {
             method: 'POST',
             headers: {
@@ -118,6 +176,7 @@ export default function CrudPhysicEval() {
     }
 
     const changeStudent = e => {
+        console.log(e.value)
         setStudentNewEval(e.value);
     }
 
@@ -126,10 +185,16 @@ export default function CrudPhysicEval() {
             <div className='div-inputs-container'>
                 <div className='div-align-select'>
                     <div className='div-select-data'>
-                        <h3>Selecione o aluno:</h3>
-                        <div className='div-select-students'>
-                            <Select options={arrStudents} onChange={changeStudent} />
-                        </div>
+                        {id ?
+                        <h1>{nameUserEditing}</h1>
+                        :
+                        <>
+                            <h3>Selecione o aluno:</h3>
+                            <div className='div-select-students'>
+                                <Select options={arrStudents} onChange={changeStudent} />
+                            </div>
+                        </>
+                        }
                     </div>
                 </div>
                 <div className='div-inputs-firstrow'>
@@ -313,7 +378,7 @@ export default function CrudPhysicEval() {
                         </div>
                     </div>
                 </div>
-
+                {id &&
                 <div className='div-inputs-thirdrow'>
                     <div className='div-bodyresults-data div-data'>
                         <h3>Resultados corporais:</h3>
@@ -350,6 +415,7 @@ export default function CrudPhysicEval() {
                         </div>
                     </div>
                 </div>
+                }
                 <div className="div-btn-save">
                     <button className='btn btn-save' type='submit'>Salvar</button>
                 </div>
