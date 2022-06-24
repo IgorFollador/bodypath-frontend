@@ -1,18 +1,12 @@
 import './Cruds.scss';
-import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../components/InputText.scss';
 import '../../components/InputRadio.scss';
-import ModalGeneric from '../../components/ModalGeneric';
-import icon_alert_circle from '../../images/icon-alert-circle.png';
-import icon_check_circle from '../../images/icon-check-circle.png';
 
-export default function CrudUser() {
+export default function CrudMyCadastre() {
     const { register, handleSubmit } = useForm();
-    const { id } = useParams();
-    const professionalId = localStorage.getItem("@Auth:professional_id");
-    // const [isAdmin, setIsAdmin] = useState(false);
+    const id = localStorage.getItem("@Auth:userId");
     const [firstNameIsValid, setFirstNameIsValid] = useState(true);
     const [lastNameIsValid, setLastNameIsValid] = useState(true);
     const [emailIsValid, setEmailIsValid] = useState(true);
@@ -23,75 +17,40 @@ export default function CrudUser() {
     const [cityIsValid, setCityIsValid] = useState(true);
     const [streetIsValid, setStreetIsValid] = useState(true);
     const [numberIsValid, setNumberIsValid] = useState(true);
-    const [passwordIsValid, setPasswordIsValid] = useState(true);
-    const [confirmPasswordIsValid, setConfirmPasswordIsValid] = useState(true);
     const [userValues, setUserValues] = useState([]);
-    const [isModalConfirmVisible, setIsModalConfirmVisible] = useState(false);
-    const [isModalOkSuccessVisible, setIsModalOkSuccessVisible] = useState(false);
-    const [isModalOkFailedVisible, setIsModalOkFailedVisible] = useState(false);
     const idsFields = ['input-pro-stud-firstname', 'input-pro-stud-lastname', 'input-pro-stud-email', 'input-pro-stud-confirmemail', 'input-pro-stud-cpf', 
           'input-pro-stud-phone', 'input-pro-stud-state', 'input-pro-stud-city', 'input-pro-stud-street', 'input-pro-stud-number'];
 
-    // const getIsAdmin = async () => {
-    //     var userId = localStorage.getItem("@Auth:userId");
-    //     try {
-    //         const response = await fetch('http://localhost:10000/customer/users/' + userId, {
-    //             headers: {
-    //                 'Authorization': localStorage.getItem("@Auth:token")
-    //             },
-    //         });
-    //         const content = await response.json();
-    //         setIsAdmin(content.profile_id === 1);
-    //     } catch(error) {
-    //         alert(error);
-    //     } 
-    // }
-    // getIsAdmin();
-
-    const spreadUserData = () => {
-        fetch('http://localhost:10000/customer/clients/' + id, {
+    useEffect(() => {
+        fetch('http://localhost:10000/customer/users/' + id, {
             headers: {
                 'Authorization': localStorage.getItem("@Auth:token")
-            }, 
+            },
         })
-        .then(response => response.json())
-        .then(data => {
-            const address1 = data.User.address.split(', ');
-            const address2 = address1[1].split(' - ');                                                   //state         city        street       number
-            const values = [data.User.firstName, data.User.lastName, data.User.email, data.User.email, data.User.cpf, data.User.phone, address2[2], address2[1], address1[0], address2[0]]
-            const div = document.querySelector('#form-crud-user .div-crud').children;
-            const permission = data.profile_id;
-            var countDivs = 0;
-            setUserValues(values);
-
-            for (var i = 0; i < values.length; i++) {
-                if (i%2 === 0) {
-                    div[countDivs].children[0].children[0].value = values[i];
-                    div[countDivs].children[0].children[0].classList.add('min-label');
-                } else {
-                    div[countDivs].children[1].children[0].value = values[i];
-                    div[countDivs].children[1].children[0].classList.add('min-label');
-                    countDivs++;
+            .then(response => response.json())
+            .then(data => {
+                const address1 = data.address.split(', ');
+                const address2 = address1[1].split(' - ');
+                const state = address2[2];
+                const city = address2[1];
+                const street = address1[0];
+                const number = address2[0];
+                const div = document.querySelector('#form-crud-user .div-crud').children;
+                const values = [data.firstName, data.lastName, data.email, data.email, data.cpf, data.phone, state, city, street, number];
+                var countDivs = 0;
+                setUserValues(values);
+                for (var i = 0; i < values.length; i++) {
+                    if (i%2 === 0) {
+                        div[countDivs].children[0].children[0].value = values[i];
+                        div[countDivs].children[0].children[0].classList.add('min-label');
+                    } else {
+                        div[countDivs].children[1].children[0].value = values[i];
+                        div[countDivs].children[1].children[0].classList.add('min-label');
+                        countDivs++;
+                    }
                 }
-            }
-
-            if (permission === 1) {
-                document.getElementById('radio-pro-stud-admin').checked = true;
-            } else if (permission === 2) {
-                document.getElementById('radio-pro-stud-nutri').checked = true;
-            } else if (permission === 3) {
-                document.getElementById('radio-pro-stud-personal').checked = true;
-            }
-        })
-    }
-
-    if (id) {
-        var reload = true;
-        idsFields.forEach(field => {
-            if (document.getElementById(field) !== null) reload = false;
-        })
-        reload && spreadUserData(id);
-    }
+            })
+    }, [])
 
     const returnObj = data => {
         var obj = {};
@@ -105,7 +64,6 @@ export default function CrudUser() {
         data.cpf !== '' ? obj.cpf = data.cpf : obj = obj;
         data.phone !== '' ? obj.phone = data.phone : obj = obj;
         data.password !== '' ? obj.password = data.password : obj = obj;
-        obj.professional_id = professionalId;
         if (data.street !== '' || data.number !== '' || data.city !== '' || data.state !== '') {
             obj.address = street + ', ' + number + ' - ' + city + ' - ' + state;
         }
@@ -122,13 +80,12 @@ export default function CrudUser() {
     const submitForm = data => {
         const obj = returnObj(data);
         verifyDataForm();
-        id ? asyncPutCall(obj) : asyncPostCall(obj);
-        closeSaveModal();
+        asyncPutCall(obj);
     }
 
     const asyncPutCall = async data => {
         try {
-            const response = await fetch('http://localhost:10000/customer/clients/' + id, {
+            const response = await fetch('http://localhost:10000/customer/users/' + id, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -137,35 +94,10 @@ export default function CrudUser() {
                 body: JSON.stringify(data)
             });
             const content = await response.json();
-            if (response.ok) {
-                setIsModalOkSuccessVisible(true);
-            } else {
-                setIsModalOkFailedVisible(true);
-            }
+            alert("Usuário alterado com sucesso!");
         } catch(error) {
-            console.error(error);
+            alert(error);
         } 
-    }
-
-    const asyncPostCall = async data => {
-        try {
-            const response = await fetch('http://localhost:10000/customer/clients', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': localStorage.getItem("@Auth:token")
-                },
-                body: JSON.stringify(data)
-            });
-            const content = await response.json();
-            if (response.ok) {
-                setIsModalOkSuccessVisible(true);
-            } else {
-                setIsModalOkFailedVisible(true);
-            }
-        } catch(error) {
-            console.error(error);
-        }
     }
  
     const addMinLabel = (id, field) => {
@@ -206,12 +138,6 @@ export default function CrudUser() {
             setStreetIsValid(!fieldIsEmpty(fieldValue));
         } else if (field === 'number') {
             setNumberIsValid(!fieldIsEmpty(fieldValue));
-        } else if (field === 'password') {
-            var isValid = fieldValue.length >= 6;
-            setPasswordIsValid(isValid);
-        } else if (field === 'confirmpassword') {
-            var isValid = (fieldValue === document.querySelector('#input-pro-stud-password').value) && !fieldIsEmpty(fieldValue);
-            setConfirmPasswordIsValid(isValid);
         }
     }
 
@@ -258,14 +184,6 @@ export default function CrudUser() {
             isEmpty = true;
         }
         return isEmpty;
-    }
-
-    const openSaveModal = () => {
-        setIsModalConfirmVisible(true);
-    }
-
-    const closeSaveModal = () => {
-        setIsModalConfirmVisible(false);
     }
 
     return (
@@ -331,88 +249,9 @@ export default function CrudUser() {
                         { !numberIsValid && <span>Campo inválido!</span> }
                     </div>
                 </div>
-                {!id &&
-                    <div className='div-double-input'>
-                        <div className='input-label-default'>
-                            <input type='password' className='input-text-default' id='input-pro-stud-password' fieldname='Senha' {...register("password")} onBlur={() => addMinLabel('input-pro-stud-password', 'password')} maxLength='255' autoComplete='new-password' />
-                            <label htmlFor='input-pro-stud-number'>Senha</label>
-                            { !passwordIsValid && <span>Campo inválido!</span> }
-                        </div>
-                        <div className='input-label-default'>
-                            <input type='password' className='input-text-default' id='input-pro-stud-confirmpassword' fieldname='Senha' onBlur={() => addMinLabel('input-pro-stud-confirmpassword', 'confirmpassword')} maxLength='255' autoComplete='off' />
-                            <label htmlFor='input-pro-stud-confirmpassword'>Confirmação de senha</label>
-                            { !confirmPasswordIsValid && <span>Campo inválido!</span> }
-                        </div>
-                    </div>
-                }
-                {/* {isAdmin &&
-                <div className='input-radio-container'>
-                    <span>Permissões:</span>
-                    <div className='inputs-radio'>
-                        <div className="input-label-radio">
-                            <input id='radio-pro-stud-admin' className='input-radio-default' name='profile_id' type="radio" {...register("profile_id")} value={1}/>
-                            <label className='label-radio-default' htmlFor='radio-pro-stud-admin'>Administrador</label>
-                        </div>
-                        <div className="input-label-radio">
-                            <input id='radio-pro-stud-nutri' className='input-radio-default' name='profile_id' type="radio" {...register("profile_id")} value={2}/>
-                            <label className='label-radio-default' htmlFor='radio-pro-stud-nutri'>Nutricionista</label>
-                        </div>
-                        <div className="input-label-radio">
-                            <input id='radio-pro-stud-personal' className='input-radio-default' name='profile_id' type="radio" {...register("profile_id")} value={3}/>
-                            <label className='label-radio-default' htmlFor='radio-pro-stud-personal'>Educador Físico</label>
-                        </div>
-                    </div>
-                </div>
-                } */}
-                {isModalConfirmVisible && id && <ModalGeneric onClose={ closeSaveModal }>
-                    <div className='modal-confirm-crud'>
-                        <div className='modal-confirm-crud__texts'>
-                            <h1>Você confirma a edição do aluno</h1>
-                            <h1>{userValues[0] + ' ' + userValues[1] + '?'}</h1>
-                        </div>
-                        <div className='modal-confirm-crud__buttons'>
-                            <button type='submit' id='btn-saveEditUser' className='btn btn-confirm'>Confirmar</button>
-                            <button className='btn btn-cancel' onClick={ closeSaveModal }>Cancelar</button>
-                        </div>
-                    </div>
-                </ModalGeneric>}
-                {isModalConfirmVisible && !id && <ModalGeneric onClose={ closeSaveModal }>
-                    <div className='modal-confirm-crud'>
-                        <div className='modal-confirm-crud__texts'>
-                            <h1>Você confirma a criação do aluno?</h1>
-                        </div>
-                        <div className='modal-confirm-crud__buttons'>
-                            <button type='submit' id='btn-saveEditUser' className='btn btn-confirm'>Confirmar</button>
-                            <button className='btn btn-cancel' onClick={ closeSaveModal }>Cancelar</button>
-                        </div>
-                    </div>
-                </ModalGeneric>}
-                {isModalOkSuccessVisible  && <ModalGeneric onClose={ ()=>{setIsModalOkSuccessVisible(false)} }>
-                    <div className='modal-confirm-crud'>
-                        <div className='modal-confirm-crud__texts'>
-                            <img src={icon_check_circle} alt="Confirmação de exclusão" />
-                            <h1>Aluno salvo com sucesso!</h1>
-                        </div>
-                        <div className='modal-confirm-crud__buttons'>
-                            <button className='btn btn-confirm' onClick={ ()=>{setIsModalOkSuccessVisible(false);window.location.href = '/professional/students'} }>Ok</button>
-                        </div>
-                    </div>
-                </ModalGeneric>}
-                {isModalOkFailedVisible  && <ModalGeneric onClose={ ()=>{setIsModalOkFailedVisible(false)} }>
-                    <div className='modal-confirm-crud'>
-                        <div className='modal-confirm-crud__texts'>
-                            <img src={icon_alert_circle} alt="Confirmação de exclusão" />
-                            <h1>O aluno não foi salvo!</h1>
-                            <span>Verifique os dados e tente novamente!</span>
-                        </div>
-                        <div className='modal-confirm-crud__buttons'>
-                            <button className='btn btn-confirm' onClick={ ()=>{setIsModalOkFailedVisible(false);} }>Ok</button>
-                        </div>
-                    </div>
-                </ModalGeneric>}
             </div>
             <div className='div-btn-save'>
-                <button type='button' onClick={ openSaveModal } className='btn btn-save'>Salvar</button>
+                <button type='submit' className='btn btn-save'>Salvar</button>
             </div>
         </form>
     )

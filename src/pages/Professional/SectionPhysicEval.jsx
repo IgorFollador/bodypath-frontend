@@ -3,27 +3,30 @@ import { Link } from 'react-router-dom';
 import plus from '../../images/plus.png';
 import edit from '../../images/edit.png';
 import exclude from '../../images/exclude.png';
+import icon_alert_circle from '../../images/icon-alert-circle.png';
 import React, { useEffect, useState } from 'react';
 import Moment from 'moment';
+import Professional from './Professional';
 
 export default function SectionPhysicEval() {
     function ListEvaluations() {
         //Array estático até ter a consulta ao back-end
-        const [arrEval, setArrEval] = useState([]);
-        const [arrPeople, setArrPeople] = useState([]);
-        
+        const initialObj = {
+            'id': 0,
+            'user_id': 0,
+            'createdAt': '2000-01-01T17:00:00.000Z',
+            'Client': {
+                'User': {
+                    'firstName': '',
+                    'lastName': ''
+                }
+            }
+        }
+        const [arrEval, setArrEval] = useState([initialObj]);
+        const professionalId = localStorage.getItem("@Auth:professional_id");
+
         useEffect(() => {
-            fetch('http://localhost:10000/phyisical_evaluation/evaluations', {
-                headers: {
-                    'Authorization': localStorage.getItem("@Auth:token")
-                }, 
-            })
-            .then(response => response.json())
-            .then(data => {arr(data)})
-        }, [])
-        
-        useEffect(() => {
-            fetch('http://localhost:10000/customer/users', {
+            fetch('http://localhost:10000/phyisical_evaluation/evaluations/professional/' + professionalId, {
                 headers: {
                     'Authorization': localStorage.getItem("@Auth:token")
                 }, 
@@ -32,10 +35,10 @@ export default function SectionPhysicEval() {
             .then(data => {
                 var arrBuffer = [];
                 data.forEach(user => {
-                    var userData = {'id': user.id, 'fullName': user.firstName + ' ' + user.lastName};
+                    var userData = {'id': user.Client.id, 'fullName': user.Client.firstName + ' ' + user.Client.lastName};
                     arrBuffer.push(userData);
                 });
-                setArrPeople(arrBuffer);
+                arr(data);
             })
         }, [])
 
@@ -69,32 +72,44 @@ export default function SectionPhysicEval() {
         return (
             <>
                 <div className='list-things'>
-                    {arrEval.map(evaluation => {
+                    {arrEval.length > 0 &&
+                        <div className='title-list'>
+                            <div>
+                                <span>Nome</span>
+                            </div>
+                            <div>
+                                <span>Data de criação</span>
+                            </div>
+                        </div>
+                    }
+                    {arrEval.length > 0 ?
+                    arrEval.map(evaluation => {
                         return (
-                            <div className='list-line' key={'eval-' + evaluation._id}>
-                                <div className='item-list' onDoubleClick={()=>{redirectUpdate(evaluation._id)}}>
-                                    <div className='eval-list'>
-                                    {
-                                        arrPeople.length > 0 &&
-                                        <span>{arrPeople.map(user => {
-                                            if (user.id === evaluation.user_id) {
-                                                return user.fullName;
-                                            }
-                                        })}
-                                        </span>
-                                    }
-                                    </div>
-                                    <div>
-                                        <span>{ Moment(evaluation.createdAt.slice(0, -14).replace(/-/gi, '')).format('DD/MM/YYYY') }</span>
-                                    </div>
+                            <>
+                            <div className='list-line' key={'eval-' + evaluation.id}>
+                                <div className='item-list' onDoubleClick={()=>{redirectUpdate(evaluation.id)}}>
+                                    <div className='eval-list'><span>{evaluation.Client.User.firstName + ' ' + evaluation.Client.User.lastName}</span></div>
+                                    <div><span>{arrEval.length > 0 &&
+                                        Moment(evaluation.createdAt.replace(/-/gi, '').slice(0, -14)).format('DD/MM/YYYY')
+                                    }</span></div>
                                 </div>
-                                <Link to={'/professional/evaluations/update/' + evaluation._id}>
+                                <Link to={'/professional/evaluations/update/' + evaluation.id}>
                                     <button className='btn btn-edit'><img src={edit} alt='Editar' /></button>
                                 </Link>
-                                <button className='btn btn-exclude' onClick={() => {deleteEval(evaluation._id)}}><img src={exclude} alt='Excluir' /></button>
+                                <button className='btn btn-exclude' onClick={()=>{deleteEval(evaluation.id)}}><img src={exclude} alt='Excluir' /></button>
                             </div>
+                            </>
                         )
-                    })}
+                    })
+                    :
+                    <div className='list-empty'>
+                        <img src={icon_alert_circle} alt="Alerta" />
+                        <h1>Você ainda não possui nenhuma avaliação cadastrada...</h1>
+                        <span>Adicione novas avaliações clicando no botão abaixo!</span>
+                        <div className='item-list'>
+                        </div>
+                    </div>
+                    }
                 </div>
             </>
         )

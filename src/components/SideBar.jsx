@@ -4,6 +4,8 @@ import plus from '../images/plus.png';
 import iconSearch from '../images/search-blue.png';
 import React, { useEffect, useState } from 'react';
 
+const professionalId = localStorage.getItem("@Auth:professional_id");
+
 function ButtonSideBar(props) {
     function removeClassActive() {
         for (let i = 1; i < 6; i++) {
@@ -35,7 +37,7 @@ function SearchPerson() {
     const [arrPeople, setArrPeople] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:10000/customer/users/names', {
+        fetch('http://localhost:10000/customer/clients/names/professional/' + professionalId, {
             headers: {
                 'Authorization': localStorage.getItem("@Auth:token")
             }, 
@@ -61,7 +63,7 @@ function SearchPerson() {
             <img className='icon-search' src={iconSearch} alt='Icone de busca' />
             <div className='list-people'>
                 {arrPeople.map((person, i) => {
-                    return (<div className='item-person' onDoubleClick={()=>{redirectUpdate(person.id)}} key={'min-student-' + person.id}>{person.firstName + ' ' + person.lastName}</div>)
+                    return (<div className='item-person' onDoubleClick={()=>{redirectUpdate(person.user_id)}} key={'min-student-' + person.id}>{person.User.firstName + ' ' + person.User.lastName}</div>)
                 })}
             </div>
             <button className='button-add' onClick={redirectCreate}>Adicionar<img className='img-plus' src={plus} alt='Mais'/></button>

@@ -25,7 +25,6 @@ const  HelloUser = props => {
 }
 
 function Logout() {
-  console.log("Goodbye")
   localStorage.clear();
 }
 

@@ -59,6 +59,30 @@
             }
         }
 
+        .list-empty {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+            height: calc(100vh - 300px);
+
+            img {
+                max-height: 110px;
+                margin-bottom: 35px;
+            }
+        }
+
+        .title-list {
+            margin: 15px;
+            display: flex;
+            font-size: 20px;
+            width: calc(100% - 150px);
+
+            &>div {
+                width: 50%;
+            }
+        }
+
         &::-webkit-scrollbar {
             width: 5px;
         }

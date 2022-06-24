@@ -233,6 +233,34 @@
 }
 
 //Crud Food Plan begin
+table {
+    width: 100%;
+}
+
+.button-centralize {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .btn-save {
+        width: auto;
+        height: 40px;
+        display: flex;
+        color: $color5;
+        margin: 0px 7px;
+        font-size: 20px;
+        margin-top: 20px;
+        user-select: none;
+        padding: 15px 20px;
+        border-radius: 5px;
+        align-items: center;
+        justify-content: center;
+        border: 2px $color1 solid;
+        background-color: $color1;
+        -webkit-user-select: none;
+    }
+}
+
 .div-select-student {
     display: flex;
     align-items: center;
@@ -356,6 +384,38 @@
                 height: 14px;
                 margin-left: 15px;
             }
+        }
+    }
+
+    .results-food {
+
+        .food__desc {
+            text-align: end;
+            font-weight: bold;
+            background-color: $color2;
+        }
+
+        .food__exclude {
+            background-color: $color2;
+        }
+    }
+
+    .results-label {
+
+        .item {
+            height: 46.3px;
+            font-weight: bold;
+            background-color: $color1;
+        }
+
+        .food__desc {
+            text-align: end;
+            font-weight: bold;
+            background-color: $color2;
+        }
+
+        .food__exclude {
+            background-color: $color2;
         }
     }
 }
