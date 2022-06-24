@@ -127,7 +127,7 @@ export default function CrudPhysicEval() {
     const returnCreatetObj = data => {
         let obj = data;
         obj.sex = activeInputHip ? 'F' : 'M';
-        obj.client_id = 17;
+        obj.client_id = studentNewEval;
         obj.professional_id = professionalId;
         return obj;
     }
@@ -144,6 +144,7 @@ export default function CrudPhysicEval() {
             asyncPostCall(obj);
         }
         // closeSaveModal();
+        window.location.href = '/professional/evaluations';
     }
 
     const asyncPutCall = async data => {
@@ -176,7 +177,6 @@ export default function CrudPhysicEval() {
     }
 
     const changeStudent = e => {
-        console.log(e.value)
         setStudentNewEval(e.value);
     }
 
